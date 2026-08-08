@@ -1,0 +1,6 @@
+# The scripts in verify/ install Tailwind on demand with --no-save. The theme
+# itself has no dependencies and no build step, and neither the install nor its
+# lockfile belongs in the repository.
+node_modules/
+package-lock.json
+package.json

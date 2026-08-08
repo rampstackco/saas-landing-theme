@@ -1,0 +1,275 @@
+/* ==========================================================================
+   saas-landing-theme / tokens
+   --------------------------------------------------------------------------
+   This file is the single source of truth. Every literal value in the theme
+   lives here exactly once. The Tailwind adapters next to it (theme.css for
+   v4, preset.js for v3) hold no values of their own; they point at these
+   custom properties with var().
+
+   Each group is annotated with the creative-direction axis the choice serves.
+   The four axes are tone register, aesthetic philosophy, audience
+   relationship, and sensory ambition. Read them at
+   https://rampstack.co/framework/creative-direction
+
+   This register is the category convention, so the tokens carry no unusual
+   value. What they carry is the arithmetic: a spacing scale that stays on
+   one rhythm, a type scale with real distance between steps, and colours
+   measured rather than eyeballed. Contrast ratios in the comments are WCAG
+   2.1 relative-luminance figures against the ground or the fill named. Every
+   text pairing here clears AA, and every line that has to be seen to operate
+   a control clears the 3:1 non-text floor.
+   ========================================================================== */
+
+:root {
+  /* ----------------------------------------------------------------------
+     GROUND AND INK
+     Aesthetic philosophy axis. A cool near-white rather than pure white, so
+     a white card reads as a raised surface without needing a heavy shadow to
+     say so. That one relationship is what lets the elevation stay as light
+     as it does further down this file. Ink is a blued near-black; a pure
+     #000 on a cool ground reads as a rendering artifact rather than as text.
+     ---------------------------------------------------------------------- */
+  --sl-ground: #f7f8fb;         /* page background */
+  --sl-surface: #ffffff;        /* cards, panels, the nav bar */
+  --sl-surface-muted: #eef1f7;  /* table stripes, code, recessed wells */
+  --sl-surface-invert: #1b2a63; /* the one dark band per page */
+
+  --sl-ink: #101828;            /* headings and body. 16.71:1 on ground */
+  --sl-ink-muted: #4f5b76;      /* supporting prose. 6.40:1 on ground */
+  --sl-ink-subtle: #5e6983;     /* captions, legal, table labels. 5.17:1 on ground */
+  --sl-ink-invert: #ffffff;     /* on surface-invert: 13.48:1 */
+  --sl-ink-invert-muted: #c9d3f5; /* on surface-invert:  9.06:1 */
+
+  /* ----------------------------------------------------------------------
+     THE BRAND ACCENT
+     Tone register axis. One accent, three values, no second hue. A landing
+     page in this register asks the reader to find the primary action on
+     every screen, and a palette with two competing accents makes that a
+     search. The blue is a shade off the category default on purpose: warm
+     enough to read as chosen, conventional enough that nobody has to learn
+     what it means.
+     ---------------------------------------------------------------------- */
+  --sl-brand: #3350cf;          /* white text: 6.58:1. On ground: 6.20:1 */
+  --sl-brand-strong: #2740ad;   /* hover and active. White text: 8.67:1 */
+  --sl-brand-soft: #eaeefc;     /* badge and callout fill. Brand text on it: 5.69:1 */
+  --sl-brand-ink: #ffffff;
+
+  /* ----------------------------------------------------------------------
+     SEMANTIC COLOURS
+     Aesthetic philosophy axis. Three states, each a text-weight colour with
+     a pale fill to sit on, because the badge in this register is coloured
+     text on a tint rather than a saturated block. The text colour is the one
+     measured; the fill is chosen to keep it above 4.5:1.
+     ---------------------------------------------------------------------- */
+  --sl-success: #127a4b;        /* on its soft fill: 4.74:1. On surface: 5.37:1 */
+  --sl-success-soft: #e3f5eb;
+  --sl-warning: #8a5a05;        /* on its soft fill: 5.24:1. On surface: 5.92:1 */
+  --sl-warning-soft: #fbf0da;
+  --sl-danger: #b4232c;         /* on its soft fill: 5.50:1. On surface: 6.53:1 */
+  --sl-danger-soft: #fbe7e8;
+  --sl-danger-ink: #ffffff;     /* on danger: 6.53:1 */
+
+  /* ----------------------------------------------------------------------
+     LINES
+     Audience relationship axis. Two border colours, and the split between
+     them is the part of this register that most implementations get wrong.
+     A divider is decoration and may be as light as it likes. A line that
+     tells the reader where an input begins is information, and WCAG 1.4.11
+     puts a 3:1 floor under it. The category default of a single #d1d5db for
+     both fails that floor at about 1.3:1, which is why form fields on so
+     many otherwise careful sites disappear in daylight.
+     ---------------------------------------------------------------------- */
+  --sl-border: #e2e6ef;         /* dividers and card edges. Decorative */
+  --sl-border-control: #7d8aa2; /* inputs and controls. 3.48:1 on surface, 3.28:1 on ground */
+
+  --sl-border-width: 1px;       /* the working weight */
+  --sl-border-width-strong: 2px;/* the selected plan, the focused field */
+
+  /* ----------------------------------------------------------------------
+     ELEVATION
+     Sensory ambition axis. Four steps, none above 0.12 alpha, all of them
+     small. The shadow in this register separates a surface from the ground
+     and stops there; a large soft shadow reads as a card floating in a room
+     and moves the page toward a position it is not at. Each step is two
+     shadows, a tight contact shadow and a wider ambient one, which is what
+     keeps the edge crisp while the spread stays soft.
+     ---------------------------------------------------------------------- */
+  --sl-shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+  --sl-shadow-sm: 0 1px 3px 0 rgba(16, 24, 40, 0.08),
+    0 1px 2px -1px rgba(16, 24, 40, 0.06);
+  --sl-shadow-md: 0 4px 12px -2px rgba(16, 24, 40, 0.10),
+    0 2px 4px -2px rgba(16, 24, 40, 0.06);
+  --sl-shadow-lg: 0 12px 28px -6px rgba(16, 24, 40, 0.12),
+    0 4px 8px -4px rgba(16, 24, 40, 0.06);
+
+  /* ----------------------------------------------------------------------
+     GRADIENT
+     Sensory ambition axis. Two gradients in the whole theme, both of them
+     washes rather than events. The ground wash runs the brand tint out of
+     the top of the page over about six hundred pixels, which is long enough
+     that the reader registers warmth without being able to point at where it
+     ends. The invert wash gives the dark band a direction to sit on.
+     ---------------------------------------------------------------------- */
+  --sl-gradient-ground: linear-gradient(
+    180deg,
+    var(--sl-brand-soft) 0%,
+    var(--sl-ground) 100%
+  );
+  --sl-gradient-invert: linear-gradient(
+    135deg,
+    var(--sl-surface-invert) 0%,
+    var(--sl-brand-strong) 100%
+  );
+
+  /* ----------------------------------------------------------------------
+     RADIUS
+     Audience relationship axis. Medium radii are the Peer setting. Square
+     corners address the reader as an operator working a console; pill
+     corners on a button address them as someone being sold to. The scale
+     climbs with the size of the box so the visual curve stays constant:
+     a 10px radius on a 44px button and a 20px radius on a 480px card read
+     as the same corner.
+     ---------------------------------------------------------------------- */
+  --sl-radius-sm: 6px;      /* badges, chips, table cells */
+  --sl-radius: 10px;        /* buttons, inputs, segmented controls */
+  --sl-radius-lg: 14px;     /* cards, panels */
+  --sl-radius-xl: 20px;     /* the pricing plan, the product frame */
+  --sl-radius-pill: 999px;  /* avatars and the billing switch track only */
+
+  /* ----------------------------------------------------------------------
+     TYPE
+     Tone register axis. System fonts, so the theme loads no webfont and
+     makes no network request. The scale is where a Conversational tone gets
+     made: the step from body to lead is small enough to read as the same
+     voice speaking, and the step from h2 to display is large enough that the
+     hero does not have to shout to be the hero. Weights stop at 700, because
+     an 800 display weight against 400 body is the jump that reads as
+     Playful, and this register is one position warmer than measured, not
+     two.
+     ---------------------------------------------------------------------- */
+  --sl-font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --sl-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --sl-weight-body: 400;
+  --sl-weight-medium: 500;
+  --sl-weight-semibold: 600;
+  --sl-weight-bold: 700;
+
+  --sl-text-display: 3.5rem;   /* 56px, the hero headline */
+  --sl-text-h1: 2.75rem;       /* 44px */
+  --sl-text-h2: 2rem;          /* 32px, the section headline */
+  --sl-text-h3: 1.375rem;      /* 22px, the card and plan title */
+  --sl-text-lead: 1.1875rem;   /* 19px, the sentence under a headline */
+  --sl-text-body: 1rem;        /* 16px, the floor for form inputs on iOS */
+  --sl-text-sm: 0.875rem;      /* 14px, the floor for any body content */
+  --sl-text-xs: 0.75rem;       /* 12px, eyebrows and badges only, never prose */
+
+  --sl-leading-tight: 1.1;   /* display and h1 */
+  --sl-leading-snug: 1.3;    /* h2, h3, card titles */
+  --sl-leading-body: 1.65;   /* prose, and the reason the page feels calm */
+
+  --sl-tracking-tight: -0.02em; /* display sizes only */
+  --sl-tracking-wide: 0.08em;   /* the eyebrow above a section headline */
+
+  /* ----------------------------------------------------------------------
+     SPACE
+     Aesthetic philosophy axis. A 4px base with the awkward steps left out,
+     so there is one obvious answer at every size and no argument about
+     whether a gap is 20px or 24px. Section rhythm is the number that carries
+     this register: 96px between sections on desktop and 64px on mobile is
+     what separates a page that reads as composed from one that reads as
+     stacked. The two values ship as separate tokens rather than as one token
+     behind a media query, so a consumer can see both numbers.
+     ---------------------------------------------------------------------- */
+  --sl-space-1: 4px;
+  --sl-space-2: 8px;
+  --sl-space-3: 12px;
+  --sl-space-4: 16px;
+  --sl-space-6: 24px;
+  --sl-space-8: 32px;
+  --sl-space-12: 48px;
+  --sl-space-16: 64px;
+  --sl-space-24: 96px;
+  --sl-space-32: 128px;
+
+  --sl-section-y: 64px;        /* section padding, narrow viewports */
+  --sl-section-y-wide: 96px;   /* section padding, 768px and up */
+  --sl-hero-y: 96px;           /* the hero gets one step more, both ways */
+  --sl-hero-y-wide: 128px;
+
+  /* The two arrangements the section layer uses. They are track lists rather
+     than column counts on purpose: a count is a number a consumer has to turn
+     into a grid, and every place that conversion happens is a place the count
+     and the layout can drift apart. Handing over the tracks means the Tailwind
+     adapters can map these into a real grid-cols utility, which a bare 3
+     cannot be mapped into at all. */
+  --sl-grid-triptych: repeat(3, minmax(0, 1fr));
+  --sl-grid-pair: repeat(2, minmax(0, 1fr));
+
+  --sl-measure: 68ch;             /* prose measure */
+  --sl-container: 1152px;         /* page max width */
+  --sl-container-narrow: 720px;   /* FAQ, legal, anything read line by line */
+
+  /* ----------------------------------------------------------------------
+     MOTION
+     Sensory ambition axis. Two durations and one curve. Hover states move at
+     160ms, which is fast enough to feel attached to the pointer; the
+     disclosure and the billing switch take 240ms, because a thing that
+     changes size needs longer to stay legible while it does. The lift is two
+     pixels. Anything larger turns a hover into an event.
+     ---------------------------------------------------------------------- */
+  --sl-duration: 160ms;
+  --sl-duration-slow: 240ms;
+  --sl-ease: cubic-bezier(0.2, 0, 0.2, 1);
+  --sl-lift: 2px;
+
+  /* ----------------------------------------------------------------------
+     FOCUS
+     Audience relationship axis. The ring is the brand colour at 6.20:1
+     against the ground, offset outside the element so it never sits on top
+     of the border it is announcing. Offsetting also means the ring works on
+     the dark band, where a ring drawn inside a filled button would vanish.
+     ---------------------------------------------------------------------- */
+  --sl-ring: var(--sl-brand);
+  --sl-ring-width: 2px;
+  --sl-ring-offset: 2px;
+
+  /* ----------------------------------------------------------------------
+     SECTION LAYER: PROOF AND PRICING
+     Aesthetic philosophy axis. These four belong to the section patterns in
+     components/sections.css rather than to any single component, and they
+     are the numbers that decide whether those patterns read as composed.
+     The logo height is the one to watch: customer marks vary in aspect
+     ratio, and setting a common height rather than a common width is what
+     makes a row of them sit on one optical line.
+     ---------------------------------------------------------------------- */
+  --sl-logo-height: 26px;      /* the proof strip, every mark on one line */
+  --sl-plan-raise: 8px;        /* how far the recommended plan sits above its row */
+  --sl-frame-bar: 34px;        /* the product frame's title bar */
+  --sl-avatar: 40px;           /* the testimonial portrait */
+
+  /* The sticky nav's height, rounded up to the next spacing step. Sections use
+     it as scroll-margin so an anchor jump does not land with the heading
+     already under the bar. It is a separate number from any nav token because
+     the bar's height comes from its contents; if you change the nav's padding
+     or its button size, measure it again. */
+  --sl-nav-offset: 72px;
+
+  /* The width below which the comparison table stops being a table. Four
+     columns in 358px is four columns of wrapped fragments, so the table keeps
+     this width and the region scrolls instead. */
+  --sl-table-min: 640px;
+}
+
+/* Anyone who has asked the operating system to stop animating gets a theme
+   with no motion at all. Every transition in this theme is a hover, a lift or
+   a disclosure, and none of them carries information the reader would lose. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sl-duration: 1ms;
+    --sl-duration-slow: 1ms;
+    --sl-lift: 0px;
+  }
+}
