@@ -20,11 +20,7 @@ This is the web's default professional dialect, and that is the point. The value
 
 ## The demo
 
-The screenshot above is [`demo/index.html`](demo/index.html), a fictional B2B renewal tracker called Detent. Clone the repo and open the file. There is no build step, no framework, no `node_modules`, and no server to start.
-
-<!-- TODO(public flip): once this repo is public and GitHub Pages is turned on for
-     the default branch, replace the relative link above with
-     https://rampstackco.github.io/saas-landing-theme/demo/ -->
+The screenshot above is [`demo/index.html`](demo/index.html), a fictional B2B renewal tracker called Detent. **[Open it live](https://rampstackco.github.io/saas-landing-theme/demo/)**, or clone the repo and open the file. There is no build step, no framework, no `node_modules`, and no server to start.
 
 The demo declares no colour of its own. It links `tokens/tokens.css`, `components/components.css` and `components/sections.css` and reads every value from them, so it stays honest about what the theme actually produces.
 
@@ -161,9 +157,11 @@ The [`design-standards`](https://github.com/rampstackco/claude-skills/tree/main/
 
 Most teams should start here. Not because this register is the best one, but because it is the one the reader already knows, which means every deviation from it costs the reader something and has to be worth what it costs. Build the page at this position first, get the spacing and the contrast right, and then decide whether the brand needs a louder position badly enough to spend the familiarity.
 
-If it does, the sibling repositories in this collection are the same discipline at other coordinates: the same token structure, the same adapters, the same verification, pointed at registers that ask more of the reader. <!-- TODO(siblings): link the neobrutalism, glassmorphism, swiss, bento and brutalist siblings here once they are all public. -->
+If it does, the sibling repositories in this collection are the same discipline at other coordinates: the same token structure, the same adapters, the same verification, pointed at registers that ask more of the reader. [neobrutalism](https://github.com/rampstackco/neobrutalism-theme), [glassmorphism](https://github.com/rampstackco/glassmorphism-theme), [Swiss style](https://github.com/rampstackco/swiss-style-theme), [bento grid](https://github.com/rampstackco/bento-grid-theme), [terminal UI](https://github.com/rampstackco/terminal-ui-theme), [corporate memphis](https://github.com/rampstackco/corporate-memphis-theme) and [brutalist web](https://github.com/rampstackco/brutalist-web-theme), with the gallery at [rampstack.co/themes](https://rampstack.co/themes).
 
-Composing rather than switching is normal. This register is the foundation under most of them: glassy surfaces, hard offset shadows and mosaic grids are all treatments that get applied on top of a page whose spacing and contrast were already correct. <!-- TODO(siblings): link the glassmorphism sibling here once it ships. -->
+Composing rather than switching is normal, and this register is the base the others are applied to rather than a rival to them. [glassmorphism-theme](https://github.com/rampstackco/glassmorphism-theme) is the clearest case: it sits at the same four coordinates this theme does and differs only in the layer it works on. This one settles the spacing, the type scale and the contrast; that one replaces what the surfaces are made of and leaves the arrangement alone. Hard offset shadows and mosaic grids compose the same way. If a page is not working at this position, a treatment on top of it will not fix it.
+
+The other direction is worth knowing before you reach for the drawings: [corporate-memphis-theme](https://github.com/rampstackco/corporate-memphis-theme) is this register with an illustration system on it. Take its illustrations to zero and what remains collapses back toward this theme, which is why the two share so much of their token structure and why the drawings are the part that was actually a decision.
 
 ## Adjacency: this is not a component library
 
