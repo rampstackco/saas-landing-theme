@@ -1,0 +1,687 @@
+/* ==========================================================================
+   saas-landing-theme / components
+   --------------------------------------------------------------------------
+   Seven components: button, card, input, badge, nav, segmented control,
+   table.
+
+   That is two more than the sibling themes in this collection ship, and the
+   two extras are here because the section patterns in sections.css need
+   them. A pricing section needs a billing period control and a feature
+   comparison needs a table, and neither is something a consumer of this
+   theme should have to invent to use the pattern the theme is named for.
+
+   Every value here is a var() reference to tokens.css. There is not one
+   colour literal in this file, which is what makes retheming a matter of
+   editing one file rather than auditing seven.
+
+   The class names follow the shadcn shape: one base class carrying the
+   structure, one variant class carrying the intent (sl-btn + sl-btn-primary).
+   If you are on shadcn already, these map onto its variant prop directly.
+
+   Requires tokens.css to be loaded first. Load it explicitly rather than
+   letting this file pull it in, so the dependency is visible at the call site:
+
+     <link rel="stylesheet" href="tokens/tokens.css" />
+     <link rel="stylesheet" href="components/components.css" />
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Shared behavior
+   The focus ring is one rule reused by every component, offset outside the
+   element so it never sits on the border it is announcing. Hover lifts by two
+   pixels; nothing in this theme presses.
+   -------------------------------------------------------------------------- */
+.sl-focusable:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+/* A label that screen readers get and sighted readers do not. The segmented
+   control needs one for its legend, and the demo needs one for its skip link,
+   so it lives here rather than being redeclared on every page. */
+.sl-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ==========================================================================
+   BUTTON
+   Variants: sl-btn-primary, sl-btn-secondary, sl-btn-ghost, sl-btn-danger
+   Sizes:    sl-btn-sm, (base), sl-btn-lg
+   ========================================================================== */
+.sl-btn {
+  /* 44px minimum on both axes. Anything smaller fails on a real thumb. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sl-space-2);
+  min-height: 44px;
+  padding: var(--sl-space-3) var(--sl-space-6);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-body);
+  font-weight: var(--sl-weight-semibold);
+  line-height: var(--sl-leading-snug);
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+
+  border: var(--sl-border-width) solid transparent;
+  border-radius: var(--sl-radius);
+  cursor: pointer;
+
+  transition:
+    background-color var(--sl-duration) var(--sl-ease),
+    border-color var(--sl-duration) var(--sl-ease),
+    box-shadow var(--sl-duration) var(--sl-ease);
+}
+
+.sl-btn:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-btn:disabled,
+.sl-btn[aria-disabled="true"] {
+  opacity: 0.55;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sl-btn-primary {
+  background: var(--sl-brand);
+  color: var(--sl-brand-ink);
+  box-shadow: var(--sl-shadow-xs);
+}
+
+.sl-btn-primary:hover:not(:disabled) {
+  background: var(--sl-brand-strong);
+}
+
+/* The secondary is a real surface, so it takes the control border rather than
+   the divider border. A reader has to be able to see where it starts. */
+.sl-btn-secondary {
+  background: var(--sl-surface);
+  color: var(--sl-ink);
+  border-color: var(--sl-border-control);
+  box-shadow: var(--sl-shadow-xs);
+}
+
+.sl-btn-secondary:hover:not(:disabled) {
+  background: var(--sl-surface-muted);
+}
+
+.sl-btn-ghost {
+  background: transparent;
+  color: var(--sl-brand);
+}
+
+.sl-btn-ghost:hover:not(:disabled) {
+  background: var(--sl-brand-soft);
+}
+
+.sl-btn-danger {
+  background: var(--sl-danger);
+  color: var(--sl-danger-ink);
+  box-shadow: var(--sl-shadow-xs);
+}
+
+.sl-btn-sm {
+  min-height: 44px; /* the visual box shrinks, the touch target does not */
+  padding: var(--sl-space-2) var(--sl-space-4);
+  font-size: var(--sl-text-sm);
+}
+
+.sl-btn-lg {
+  min-height: 52px;
+  padding: var(--sl-space-4) var(--sl-space-8);
+  font-size: var(--sl-text-lead);
+}
+
+.sl-btn-block {
+  display: flex;
+  width: 100%;
+}
+
+/* On the dark band the primary would be brand on brand, so the button inverts
+   and the ground becomes the fill. */
+.sl-btn-invert {
+  background: var(--sl-ink-invert);
+  color: var(--sl-brand-strong);
+}
+
+.sl-btn-invert:hover:not(:disabled) {
+  background: var(--sl-brand-soft);
+}
+
+/* ==========================================================================
+   CARD
+   Variants: (base), sl-card-muted, sl-card-raised
+   Parts:    sl-card-header, sl-card-title, sl-card-body, sl-card-footer
+   ========================================================================== */
+.sl-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--sl-surface);
+  color: var(--sl-ink);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-lg);
+  box-shadow: var(--sl-shadow-sm);
+  padding: var(--sl-space-6);
+}
+
+.sl-card-muted {
+  background: var(--sl-surface-muted);
+  box-shadow: none;
+}
+
+/* One raised card per screen. The heavier shadow is the theme's loudest
+   elevation and it stops meaning anything the second time it appears. */
+.sl-card-raised {
+  box-shadow: var(--sl-shadow-lg);
+}
+
+.sl-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sl-space-4);
+  margin-bottom: var(--sl-space-3);
+}
+
+.sl-card-title {
+  margin: 0;
+  font-size: var(--sl-text-h3);
+  font-weight: var(--sl-weight-semibold);
+  line-height: var(--sl-leading-snug);
+}
+
+.sl-card-body {
+  margin: 0;
+  color: var(--sl-ink-muted);
+  font-size: var(--sl-text-body);
+  line-height: var(--sl-leading-body);
+}
+
+.sl-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sl-space-3);
+  margin-top: var(--sl-space-6);
+}
+
+/* A card that is itself a link. The lift is two pixels and the shadow steps up
+   one place, which is the whole hover. */
+.sl-card-link {
+  text-decoration: none;
+  transition:
+    transform var(--sl-duration) var(--sl-ease),
+    box-shadow var(--sl-duration) var(--sl-ease),
+    border-color var(--sl-duration) var(--sl-ease);
+}
+
+.sl-card-link:hover {
+  transform: translateY(calc(var(--sl-lift) * -1));
+  border-color: var(--sl-border-control);
+  box-shadow: var(--sl-shadow-md);
+}
+
+.sl-card-link:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+/* ==========================================================================
+   INPUT
+   Parts:  sl-field, sl-label, sl-input, sl-hint, sl-error
+   States: default, :focus, aria-invalid="true", :disabled
+   ========================================================================== */
+.sl-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sl-space-2);
+}
+
+.sl-label {
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink);
+}
+
+.sl-input {
+  /* 16px minimum, which is what stops iOS Safari zooming on focus. */
+  width: 100%;
+  min-height: 44px;
+  padding: var(--sl-space-3) var(--sl-space-4);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-body);
+  color: var(--sl-ink);
+  background: var(--sl-surface);
+
+  border: var(--sl-border-width) solid var(--sl-border-control);
+  border-radius: var(--sl-radius);
+  box-shadow: var(--sl-shadow-xs);
+
+  transition:
+    border-color var(--sl-duration) var(--sl-ease),
+    box-shadow var(--sl-duration) var(--sl-ease);
+}
+
+.sl-input::placeholder {
+  color: var(--sl-ink-subtle);
+}
+
+.sl-input:focus {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+  border-color: var(--sl-brand);
+}
+
+.sl-input[aria-invalid="true"] {
+  border-color: var(--sl-danger);
+  border-width: var(--sl-border-width-strong);
+}
+
+.sl-input:disabled {
+  background: var(--sl-surface-muted);
+  color: var(--sl-ink-subtle);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.sl-hint {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-error {
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-danger);
+}
+
+/* Textarea and select inherit the input treatment. */
+.sl-input:where(textarea) {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* ==========================================================================
+   BADGE
+   Variants: sl-badge-neutral, sl-badge-brand, sl-badge-success,
+             sl-badge-warning, sl-badge-danger
+   ========================================================================== */
+.sl-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sl-space-1);
+  padding: var(--sl-space-1) var(--sl-space-2);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-xs);
+  font-weight: var(--sl-weight-semibold);
+  line-height: var(--sl-leading-snug);
+  letter-spacing: var(--sl-tracking-wide);
+  text-transform: uppercase;
+
+  border-radius: var(--sl-radius-sm);
+  white-space: nowrap;
+}
+
+/* Coloured text on a pale fill, not white text on a saturated block. The
+   saturated version is a Maximalist move and it drags a page of them into a
+   register this theme is not at. */
+.sl-badge-neutral {
+  background: var(--sl-surface-muted);
+  color: var(--sl-ink-muted);
+}
+
+.sl-badge-brand {
+  background: var(--sl-brand-soft);
+  color: var(--sl-brand-strong);
+}
+
+.sl-badge-success {
+  background: var(--sl-success-soft);
+  color: var(--sl-success);
+}
+
+.sl-badge-warning {
+  background: var(--sl-warning-soft);
+  color: var(--sl-warning);
+}
+
+.sl-badge-danger {
+  background: var(--sl-danger-soft);
+  color: var(--sl-danger);
+}
+
+/* ==========================================================================
+   NAV
+   A header bar with a brand block, inline links on desktop, and a disclosure
+   panel on mobile. The disclosure is a <details> element, so the pattern needs
+   no JavaScript and keeps working with the page's scripts disabled.
+   ========================================================================== */
+.sl-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--sl-surface);
+  border-bottom: var(--sl-border-width) solid var(--sl-border);
+}
+
+.sl-nav-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sl-space-4);
+  max-width: var(--sl-container);
+  margin: 0 auto;
+  padding: var(--sl-space-3) var(--sl-space-4);
+}
+
+.sl-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sl-space-2);
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-h3);
+  font-weight: var(--sl-weight-bold);
+  letter-spacing: var(--sl-tracking-tight);
+  color: var(--sl-ink);
+  text-decoration: none;
+}
+
+.sl-nav-brand:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+/* The brand mark is an inlined SVG, so it reads currentColor and takes the
+   brand from the token rather than from a copy baked into the file. */
+.sl-nav-mark {
+  display: block;
+  width: 28px;
+  height: 28px;
+  color: var(--sl-brand);
+}
+
+.sl-nav-links {
+  display: none;
+  align-items: center;
+  gap: var(--sl-space-1);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.sl-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: var(--sl-space-2) var(--sl-space-3);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink-muted);
+  text-decoration: none;
+
+  border-radius: var(--sl-radius);
+  transition:
+    color var(--sl-duration) var(--sl-ease),
+    background-color var(--sl-duration) var(--sl-ease);
+}
+
+.sl-nav-link:hover {
+  color: var(--sl-ink);
+  background: var(--sl-surface-muted);
+}
+
+/* Current page is carried by weight and colour together. Colour alone would
+   put the whole signal on one channel. */
+.sl-nav-link[aria-current="page"] {
+  color: var(--sl-ink);
+  font-weight: var(--sl-weight-semibold);
+  background: var(--sl-surface-muted);
+}
+
+.sl-nav-link:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-nav-actions {
+  display: none;
+  align-items: center;
+  gap: var(--sl-space-2);
+}
+
+/* Mobile disclosure */
+.sl-nav-disclosure {
+  position: relative;
+}
+
+.sl-nav-disclosure > summary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sl-space-2);
+  min-width: 44px;
+  min-height: 44px;
+  padding: var(--sl-space-2) var(--sl-space-3);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink);
+  background: var(--sl-surface);
+
+  border: var(--sl-border-width) solid var(--sl-border-control);
+  border-radius: var(--sl-radius);
+  cursor: pointer;
+  list-style: none;
+}
+
+.sl-nav-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.sl-nav-disclosure > summary:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-nav-panel {
+  position: absolute;
+  right: 0;
+  z-index: 20;
+  min-width: 232px;
+  margin-top: var(--sl-space-2);
+  padding: var(--sl-space-2);
+
+  list-style: none;
+  background: var(--sl-surface);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-lg);
+  box-shadow: var(--sl-shadow-lg);
+}
+
+.sl-nav-panel .sl-nav-link {
+  display: flex;
+  width: 100%;
+}
+
+.sl-nav-panel .sl-btn {
+  width: 100%;
+  margin-top: var(--sl-space-2);
+}
+
+/* At 768px the links come inline and the disclosure retires. */
+@media (min-width: 768px) {
+  .sl-nav-inner {
+    padding: var(--sl-space-3) var(--sl-space-6);
+  }
+
+  .sl-nav-links,
+  .sl-nav-actions {
+    display: flex;
+  }
+
+  .sl-nav-disclosure {
+    display: none;
+  }
+}
+
+/* ==========================================================================
+   SEGMENTED CONTROL
+   Parts: sl-segmented (fieldset), sl-segmented-option (label), the radio
+          input inside it.
+
+   This is the billing period control, and it is a radio group rather than a
+   switch on purpose. A switch announces itself as on or off, which forces a
+   screen reader user to work out which of the two prices "on" means. Two
+   radios in a group with a legend announce as "Billing period, Annual, radio
+   button, 2 of 2", which is the whole question and the whole answer. It also
+   needs no JavaScript to operate, and the price swap it drives in
+   sections.css is a CSS :has() rule rather than a listener.
+   ========================================================================== */
+.sl-segmented {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sl-space-1);
+  margin: 0;
+  padding: var(--sl-space-1);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-pill);
+  background: var(--sl-surface-muted);
+}
+
+.sl-segmented-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sl-space-2);
+  min-height: 40px;
+  padding: var(--sl-space-2) var(--sl-space-4);
+
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink-muted);
+
+  border-radius: var(--sl-radius-pill);
+  cursor: pointer;
+  transition:
+    background-color var(--sl-duration) var(--sl-ease),
+    color var(--sl-duration) var(--sl-ease),
+    box-shadow var(--sl-duration) var(--sl-ease);
+}
+
+/* The input keeps its size and its place in the tab order and gives up only
+   its paint. Setting it to display:none or visibility:hidden would take it out
+   of the accessibility tree along with the group it belongs to. */
+.sl-segmented-option > input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.sl-segmented-option:has(> input[type="radio"]:checked) {
+  background: var(--sl-surface);
+  color: var(--sl-ink);
+  font-weight: var(--sl-weight-semibold);
+  box-shadow: var(--sl-shadow-sm);
+}
+
+.sl-segmented-option:has(> input[type="radio"]:focus-visible) {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-segmented-option:hover:not(:has(> input[type="radio"]:checked)) {
+  color: var(--sl-ink);
+}
+
+/* ==========================================================================
+   TABLE
+   Parts: sl-table-wrap (the scroll container), sl-table, sl-table-strong
+          (the row label column), sl-table caption
+
+   The wrapper is not optional. A comparison table with four columns does not
+   fit a 390px viewport at a readable size, and the two honest answers are to
+   let it scroll or to redraw it as stacked cards. This theme scrolls, and the
+   wrapper carries the keyboard affordance that makes a scrollable region
+   reachable without a pointer.
+   ========================================================================== */
+.sl-table-wrap {
+  overflow-x: auto;
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-lg);
+  background: var(--sl-surface);
+}
+
+.sl-table-wrap:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-table {
+  width: 100%;
+  min-width: var(--sl-table-min);
+  border-collapse: collapse;
+  font-family: var(--sl-font-sans);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink);
+}
+
+.sl-table caption {
+  padding: var(--sl-space-4) var(--sl-space-4) var(--sl-space-3);
+  text-align: left;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-table th,
+.sl-table td {
+  padding: var(--sl-space-3) var(--sl-space-4);
+  text-align: left;
+  vertical-align: top;
+  border-bottom: var(--sl-border-width) solid var(--sl-border);
+}
+
+.sl-table thead th {
+  font-weight: var(--sl-weight-semibold);
+  color: var(--sl-ink);
+  background: var(--sl-surface-muted);
+  white-space: nowrap;
+}
+
+.sl-table tbody th {
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink);
+}
+
+.sl-table tbody tr:last-child th,
+.sl-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.sl-table-num {
+  font-variant-numeric: tabular-nums;
+}

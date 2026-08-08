@@ -1,0 +1,7 @@
+<!-- Arcwell, a fictional customer mark for the proof strip. Inlined so it
+     reads currentColor and arrives at the same weight as the marks beside it. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true">
+  <path d="M3 19a9 9 0 0 1 18 0" />
+  <path d="M7.5 19a4.5 4.5 0 0 1 9 0" />
+</svg>

@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Components | saas-landing-theme</title>
+    <meta
+      name="description"
+      content="The seven components of saas-landing-theme, rendered live with the markup to copy."
+    />
+
+    <!-- The real token file and the real component file, in that order. This
+         page holds no copy of either. -->
+    <link rel="stylesheet" href="../tokens/tokens.css" />
+    <link rel="stylesheet" href="./components.css" />
+
+    <style>
+      /* Page chrome for this gallery only. Tokens throughout, no literals. */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--sl-ground);
+        color: var(--sl-ink);
+        font-family: var(--sl-font-sans);
+        font-size: var(--sl-text-body);
+        line-height: var(--sl-leading-body);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .wrap {
+        max-width: var(--sl-container);
+        margin: 0 auto;
+        padding: var(--sl-space-12) var(--sl-space-4) var(--sl-space-24);
+      }
+
+      @media (min-width: 768px) {
+        .wrap {
+          padding-left: var(--sl-space-6);
+          padding-right: var(--sl-space-6);
+        }
+      }
+
+      h1 {
+        margin: 0 0 var(--sl-space-3);
+        font-size: var(--sl-text-h1);
+        font-weight: var(--sl-weight-bold);
+        line-height: var(--sl-leading-tight);
+        letter-spacing: var(--sl-tracking-tight);
+      }
+
+      .page-lead {
+        max-width: var(--sl-measure);
+        margin: 0 0 var(--sl-space-12);
+        font-size: var(--sl-text-lead);
+        color: var(--sl-ink-muted);
+      }
+
+      section {
+        margin-top: var(--sl-space-16);
+      }
+
+      h2 {
+        margin: 0 0 var(--sl-space-2);
+        font-size: var(--sl-text-h2);
+        font-weight: var(--sl-weight-bold);
+        line-height: var(--sl-leading-snug);
+        letter-spacing: var(--sl-tracking-tight);
+      }
+
+      .note {
+        max-width: var(--sl-measure);
+        margin: 0 0 var(--sl-space-6);
+        color: var(--sl-ink-muted);
+      }
+
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--sl-space-4);
+        margin-bottom: var(--sl-space-6);
+      }
+
+      .grid {
+        display: grid;
+        gap: var(--sl-space-6);
+        margin-bottom: var(--sl-space-6);
+        grid-template-columns: 1fr;
+      }
+
+      @media (min-width: 768px) {
+        .grid {
+          grid-template-columns: var(--sl-grid-triptych);
+        }
+      }
+
+      .stack {
+        display: grid;
+        gap: var(--sl-space-6);
+        max-width: 420px;
+        margin-bottom: var(--sl-space-6);
+      }
+
+      pre {
+        overflow-x: auto;
+        margin: 0;
+        padding: var(--sl-space-4);
+        background: var(--sl-surface-muted);
+        border: var(--sl-border-width) solid var(--sl-border);
+        border-radius: var(--sl-radius-lg);
+      }
+
+      code {
+        font-family: var(--sl-font-mono);
+        font-size: var(--sl-text-sm);
+        line-height: var(--sl-leading-body);
+      }
+
+      a {
+        color: var(--sl-brand);
+      }
+
+      footer {
+        margin-top: var(--sl-space-24);
+        padding-top: var(--sl-space-6);
+        border-top: var(--sl-border-width) solid var(--sl-border);
+        color: var(--sl-ink-subtle);
+        font-size: var(--sl-text-sm);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <h1>Components</h1>
+      <p class="page-lead">
+        Seven components, rendered from
+        <a href="../tokens/tokens.css">tokens.css</a> and
+        <a href="./components.css">components.css</a> with no page styles of
+        their own. The section patterns that arrange them into a landing page
+        live in <a href="./sections.css">sections.css</a> and are shown in the
+        <a href="../demo/index.html">demo</a>.
+      </p>
+
+      <!-- ================================================================ -->
+      <section id="button">
+        <h2>Button</h2>
+        <p class="note">
+          Four variants and three sizes. Every one keeps a 44px touch target,
+          including the small one, where the visual box shrinks and the target
+          does not.
+        </p>
+
+        <div class="row">
+          <button class="sl-btn sl-btn-primary" type="button">Start free trial</button>
+          <button class="sl-btn sl-btn-secondary" type="button">Book a walkthrough</button>
+          <button class="sl-btn sl-btn-ghost" type="button">Sign in</button>
+          <button class="sl-btn sl-btn-danger" type="button">Delete workspace</button>
+        </div>
+
+        <div class="row">
+          <button class="sl-btn sl-btn-primary sl-btn-sm" type="button">Small</button>
+          <button class="sl-btn sl-btn-primary" type="button">Base</button>
+          <button class="sl-btn sl-btn-primary sl-btn-lg" type="button">Large</button>
+          <button class="sl-btn sl-btn-primary" type="button" disabled>Disabled</button>
+        </div>
+
+        <pre><code>&lt;button class="sl-btn sl-btn-primary"&gt;Start free trial&lt;/button&gt;
+&lt;button class="sl-btn sl-btn-secondary sl-btn-lg"&gt;Book a walkthrough&lt;/button&gt;
+&lt;a class="sl-btn sl-btn-primary sl-btn-block" href="#"&gt;Full width&lt;/a&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="card">
+        <h2>Card</h2>
+        <p class="note">
+          A surface with a divider border and the smallest shadow. The raised
+          variant is the loudest elevation in the theme, which is why one per
+          screen is the ceiling.
+        </p>
+
+        <div class="grid">
+          <article class="sl-card">
+            <div class="sl-card-header">
+              <h3 class="sl-card-title">Base</h3>
+              <span class="sl-badge sl-badge-neutral">Default</span>
+            </div>
+            <p class="sl-card-body">
+              White surface, divider border, the small shadow. This is the
+              card the feature triptych uses.
+            </p>
+          </article>
+
+          <article class="sl-card sl-card-muted">
+            <div class="sl-card-header">
+              <h3 class="sl-card-title">Muted</h3>
+            </div>
+            <p class="sl-card-body">
+              A recessed well rather than a raised surface, so it takes the
+              muted ground and drops the shadow entirely.
+            </p>
+          </article>
+
+          <a class="sl-card sl-card-link" href="#card">
+            <div class="sl-card-header">
+              <h3 class="sl-card-title">Link</h3>
+            </div>
+            <p class="sl-card-body">
+              The whole card is the target. Hover lifts it two pixels and
+              steps the shadow up one place.
+            </p>
+          </a>
+        </div>
+
+        <pre><code>&lt;article class="sl-card"&gt;
+  &lt;div class="sl-card-header"&gt;
+    &lt;h3 class="sl-card-title"&gt;Title&lt;/h3&gt;
+    &lt;span class="sl-badge sl-badge-neutral"&gt;Label&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;p class="sl-card-body"&gt;Body copy.&lt;/p&gt;
+  &lt;div class="sl-card-footer"&gt;&lt;button class="sl-btn sl-btn-secondary sl-btn-sm"&gt;Action&lt;/button&gt;&lt;/div&gt;
+&lt;/article&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="input">
+        <h2>Input</h2>
+        <p class="note">
+          The border on a field is the control border rather than the divider
+          border, which clears the 3:1 non-text floor against all three
+          grounds. The category default of one light grey for every line
+          leaves a form field between 1.2:1 and 1.5:1: Tailwind's gray-200 is
+          1.24:1 against white and its gray-300 is 1.47:1.
+        </p>
+
+        <div class="stack">
+          <div class="sl-field">
+            <label class="sl-label" for="work-email">Work email</label>
+            <input class="sl-input" id="work-email" type="email" placeholder="you@company.com" />
+            <span class="sl-hint">We send the trial link here.</span>
+          </div>
+
+          <div class="sl-field">
+            <label class="sl-label" for="seats">Seats</label>
+            <input
+              class="sl-input"
+              id="seats"
+              type="text"
+              value="four hundred"
+              aria-invalid="true"
+              aria-describedby="seats-error"
+            />
+            <span class="sl-error" id="seats-error">Enter a number between 1 and 500.</span>
+          </div>
+
+          <div class="sl-field">
+            <label class="sl-label" for="notes">Anything we should know</label>
+            <textarea class="sl-input" id="notes" rows="3" placeholder="Optional"></textarea>
+          </div>
+
+          <div class="sl-field">
+            <label class="sl-label" for="plan-locked">Plan</label>
+            <input class="sl-input" id="plan-locked" type="text" value="Team" disabled />
+          </div>
+        </div>
+
+        <pre><code>&lt;div class="sl-field"&gt;
+  &lt;label class="sl-label" for="work-email"&gt;Work email&lt;/label&gt;
+  &lt;input class="sl-input" id="work-email" type="email" /&gt;
+  &lt;span class="sl-hint"&gt;We send the trial link here.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="badge">
+        <h2>Badge</h2>
+        <p class="note">
+          Coloured text on a pale fill. Every pairing below is measured and
+          recorded in tokens.css, and the lowest of them is 4.74:1.
+        </p>
+
+        <div class="row">
+          <span class="sl-badge sl-badge-neutral">On track</span>
+          <span class="sl-badge sl-badge-brand">Most chosen</span>
+          <span class="sl-badge sl-badge-success">Renewed</span>
+          <span class="sl-badge sl-badge-warning">Needs a decision</span>
+          <span class="sl-badge sl-badge-danger">Overdue</span>
+        </div>
+
+        <pre><code>&lt;span class="sl-badge sl-badge-success"&gt;Renewed&lt;/span&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="nav">
+        <h2>Nav</h2>
+        <p class="note">
+          Inline links from 768px, a disclosure panel below it. The disclosure
+          is a native details element, so it needs no JavaScript and keeps
+          working with the page's scripts disabled.
+        </p>
+
+        <div style="margin-bottom: var(--sl-space-6)">
+          <header class="sl-nav" style="position: static">
+            <div class="sl-nav-inner">
+              <a class="sl-nav-brand" href="#nav">
+                <svg class="sl-nav-mark" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+                  <rect x="2.5" y="17.5" width="10" height="10" rx="2.5" />
+                  <rect x="19.5" y="17.5" width="10" height="10" rx="2.5" />
+                  <rect x="13.5" y="4.5" width="5" height="17" rx="2.5" />
+                </svg>
+                Detent
+              </a>
+
+              <nav aria-label="Gallery example">
+                <ul class="sl-nav-links">
+                  <li><a class="sl-nav-link" href="#nav" aria-current="page">Product</a></li>
+                  <li><a class="sl-nav-link" href="#nav">Pricing</a></li>
+                  <li><a class="sl-nav-link" href="#nav">Customers</a></li>
+                </ul>
+              </nav>
+
+              <div class="sl-nav-actions">
+                <a class="sl-btn sl-btn-ghost sl-btn-sm" href="#nav">Sign in</a>
+                <a class="sl-btn sl-btn-primary sl-btn-sm" href="#nav">Start free trial</a>
+              </div>
+
+              <details class="sl-nav-disclosure">
+                <summary>Menu</summary>
+                <ul class="sl-nav-panel">
+                  <li><a class="sl-nav-link" href="#nav" aria-current="page">Product</a></li>
+                  <li><a class="sl-nav-link" href="#nav">Pricing</a></li>
+                  <li><a class="sl-nav-link" href="#nav">Customers</a></li>
+                </ul>
+              </details>
+            </div>
+          </header>
+        </div>
+
+        <pre><code>&lt;header class="sl-nav"&gt;
+  &lt;div class="sl-nav-inner"&gt;
+    &lt;a class="sl-nav-brand" href="/"&gt;&lt;svg class="sl-nav-mark"&gt;...&lt;/svg&gt; Detent&lt;/a&gt;
+    &lt;nav aria-label="Primary"&gt;
+      &lt;ul class="sl-nav-links"&gt;
+        &lt;li&gt;&lt;a class="sl-nav-link" href="/pricing"&gt;Pricing&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/nav&gt;
+    &lt;div class="sl-nav-actions"&gt;&lt;a class="sl-btn sl-btn-primary sl-btn-sm"&gt;Start&lt;/a&gt;&lt;/div&gt;
+    &lt;details class="sl-nav-disclosure"&gt;
+      &lt;summary&gt;Menu&lt;/summary&gt;
+      &lt;ul class="sl-nav-panel"&gt;...&lt;/ul&gt;
+    &lt;/details&gt;
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="segmented">
+        <h2>Segmented control</h2>
+        <p class="note">
+          The billing period control, and a radio group rather than a switch.
+          A switch announces as on or off and leaves a screen reader user to
+          work out which price "on" means. Two radios with a legend announce
+          the question and the answer, and the price swap they drive in
+          sections.css is a CSS rule rather than a listener.
+        </p>
+
+        <div class="row">
+          <fieldset class="sl-segmented">
+            <legend class="sl-visually-hidden">Billing period</legend>
+            <label class="sl-segmented-option">
+              <input type="radio" name="gallery-billing" checked />
+              Monthly
+            </label>
+            <label class="sl-segmented-option">
+              <input type="radio" name="gallery-billing" />
+              Annual
+              <span class="sl-badge sl-badge-success">2 months free</span>
+            </label>
+          </fieldset>
+        </div>
+
+        <pre><code>&lt;fieldset class="sl-segmented"&gt;
+  &lt;legend class="sl-visually-hidden"&gt;Billing period&lt;/legend&gt;
+  &lt;label class="sl-segmented-option"&gt;
+    &lt;input type="radio" name="billing" id="billing-monthly" checked /&gt; Monthly
+  &lt;/label&gt;
+  &lt;label class="sl-segmented-option"&gt;
+    &lt;input type="radio" name="billing" id="billing-annual" /&gt; Annual
+  &lt;/label&gt;
+&lt;/fieldset&gt;</code></pre>
+      </section>
+
+      <!-- ================================================================ -->
+      <section id="table">
+        <h2>Table</h2>
+        <p class="note">
+          The wrapper is part of the component. A four column comparison does
+          not fit a 390px viewport at a readable size, so the region scrolls
+          and carries the tabindex that makes a scrollable area reachable
+          without a pointer.
+        </p>
+
+        <div class="sl-table-wrap" tabindex="0" role="region" aria-label="Example comparison, scrollable">
+          <table class="sl-table">
+            <caption>Two rows from the demo's plan comparison.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Feature</th>
+                <th scope="col">Starter</th>
+                <th scope="col">Team</th>
+                <th scope="col">Enterprise</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">People included</th>
+                <td class="sl-table-num">Up to 10</td>
+                <td class="sl-table-num">Up to 100</td>
+                <td>No limit</td>
+              </tr>
+              <tr>
+                <th scope="row">SSO and directory sync</th>
+                <td>No</td>
+                <td>No</td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <pre><code>&lt;div class="sl-table-wrap" tabindex="0" role="region" aria-label="Comparison, scrollable"&gt;
+  &lt;table class="sl-table"&gt;
+    &lt;caption&gt;What the table is for.&lt;/caption&gt;
+    &lt;thead&gt;&lt;tr&gt;&lt;th scope="col"&gt;Feature&lt;/th&gt;&lt;th scope="col"&gt;Team&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;
+    &lt;tbody&gt;&lt;tr&gt;&lt;th scope="row"&gt;Seats&lt;/th&gt;&lt;td&gt;Up to 100&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+      </section>
+
+      <footer>
+        <p>
+          saas-landing-theme. Seven components here, six section patterns in
+          <a href="./sections.css">sections.css</a>, and every value in both
+          coming from <a href="../tokens/tokens.css">tokens.css</a>.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,271 @@
+/* ==========================================================================
+   saas-landing-theme / Tailwind v4 adapter
+   --------------------------------------------------------------------------
+   Maps the tokens onto Tailwind's theme namespaces so you get utilities like
+   bg-sl-brand, shadow-sl-sm, rounded-sl-lg, text-sl-h2, max-w-sl.
+
+   There is not one literal value in this file. Every entry points at a custom
+   property declared in tokens.css, which stays the single source of truth. If
+   you want to change a value, change it there.
+
+   `@theme inline` is required rather than plain `@theme`: it makes the
+   generated utility carry the underlying var() reference instead of pointing
+   back at the theme variable, which is what keeps the token resolvable when
+   it was declared outside the utility's scope.
+
+   Usage in your stylesheet:
+
+     @import "tailwindcss";
+     @import "./path/to/tokens/theme.css";
+
+   theme.css pulls in tokens.css itself, so one import is enough.
+
+   VERIFIED BY GENERATION
+
+   Nothing in this file is claimed from the documentation. Two scripts in
+   verify/ produce everything asserted here, and both ship with the repo so
+   you can rerun them against your own Tailwind:
+
+     verify/namespaces.mjs   compiles THIS file and checks that every entry
+                             emits the property it claims, carrying its var()
+     verify/probe.mjs        the control run, the namespaces that generate
+                             nothing, and the two hint traps
+
+   Both parse DECLARATIONS out of the compiled PostCSS AST. Reading class
+   names out of the output proves only that a name exists; two of the findings
+   below are cases where the name is there and the property under it is the
+   wrong one.
+
+   Measured on tailwindcss 4.2.2 with @tailwindcss/postcss 4.2.2, and again on
+   4.1.0. The two runs are identical apart from the version line. Tailwind
+   4.0.0 could not be run in this environment at all: its postcss plugin exits
+   with `Missing field negated on ScannerOptions.sources` under Node 24.14.0,
+   so 4.0.0 is recorded as untested rather than as passing.
+
+   The table is verify/namespaces.mjs output, one row per namespace and one
+   check per entry in the block below. All 80 entries pass.
+
+     namespace                    docs   result       utilities
+     --color-*                    yes    GENERATES    22/22
+     --shadow-*                   yes    GENERATES     4/4
+     --radius-*                   yes    GENERATES     5/5
+     --font-*                     yes    GENERATES     2/2
+     --font-weight-*              yes    GENERATES     4/4
+     --text-*                     yes    GENERATES     8/8
+     --leading-*                  yes    GENERATES     3/3
+     --tracking-*                 yes    GENERATES     2/2
+     --spacing-*                  yes    GENERATES    18/18
+     --container-*                yes    GENERATES     3/3
+     --ease-*                     yes    GENERATES     1/1
+     --border-width-*             no     GENERATES     2/2
+     --grid-template-columns-*    no     GENERATES     2/2
+     --background-image-*         no     GENERATES     2/2
+     --transition-duration-*      no     GENERATES     2/2
+
+   Harness sanity: stock p-4 emits `padding: calc(var(--spacing) * 4)` in every
+   run including the control, so an absent utility means an absent utility
+   rather than a broken build. Every candidate in the probe carries a suffix
+   unique to its namespace. That part is not incidental: an earlier version of
+   the probe used one suffix for everything, and with --color-sl-probe
+   declared alongside --border-width-sl-probe, `border-sl-probe` resolved
+   through the colour namespace and emitted `border-color`. The border-width
+   line looked proven and had done nothing. A confounded probe reads exactly
+   like a clean one.
+
+   CONTROL RUN. Five namespace lines deleted, everything else unchanged:
+   --border-width-*, --grid-template-columns-*, --container-*,
+   --background-image-* and --transition-duration-*. All eight of their
+   utilities disappear from the output and p-4 stays. Those lines are what
+   produce those rules, and nothing else in the file does.
+
+   FOUR NAMESPACES HERE ARE UNDOCUMENTED
+
+   Tailwind v4's documented namespace table lists twenty. Four of the fifteen
+   used above are absent from it and processed anyway: --border-width-*,
+   --grid-template-columns-*, --background-image-* and
+   --transition-duration-*. They are used because they give the ergonomic
+   name, and they are flagged because undocumented is not the same as
+   supported: a future release can drop any of them without that counting as
+   a breaking change.
+
+   Each has a documented escape hatch that needs no new token, because the
+   value already lives in tokens.css. Compiled, both routes emit the same
+   declaration:
+
+     border-sl              ->  border-(length:--sl-border-width)
+     border-t-sl            ->  border-t-(length:--sl-border-width)
+     border-x-sl-strong     ->  border-x-(length:--sl-border-width-strong)
+     grid-cols-sl-triptych  ->  grid-cols-(--sl-grid-triptych)
+     bg-sl-hero             ->  bg-(image:--sl-gradient-ground)
+     duration-sl            ->  duration-(--sl-duration)
+     max-w-sl               ->  max-w-(--sl-container)
+
+   THE TYPE HINT IS LOAD BEARING, TWICE
+
+   Two of those shorthands take a hint, and dropping it does not fail. It
+   compiles, the rule is valid CSS, and it sets a different property:
+
+     border-(length:--sl-border-width)   border-width: var(--sl-border-width)
+     border-[length:var(--sl-...)]       border-width: var(--sl-border-width)
+     border-(--sl-border-width)          border-color: var(--sl-border-width)
+     border-t-(--sl-border-width)        border-top-color: var(--sl-...)
+     border-[var(--sl-border-width)]     border-color: var(--sl-border-width)
+
+     bg-(image:--sl-gradient-ground)     background-image: var(--sl-...)
+     bg-[image:var(--sl-gradient-...)]   background-image: var(--sl-...)
+     bg-(--sl-gradient-ground)           background-color: var(--sl-...)
+     bg-[var(--sl-gradient-ground)]      background-color: var(--sl-...)
+
+   A border colour declared as 1px and a background colour declared as a
+   linear-gradient() both set nothing and warn about nothing. All eight forms
+   were compiled and read back. Take the hinted ones and no others.
+   `duration-(--sl-duration)` needs no hint; there is no colour interpretation
+   of a transition duration for it to fall into.
+
+   THREE NAMESPACES DO NOT EXIST, AND ONE IS A TRAP
+
+   --border-style-*, --gradient-* and --duration-* were all declared in the
+   same block with distinguishable sentinel values and produce no rule at all:
+   border-sl-bs, bg-sl-grad, bg-linear-sl-grad and duration-sl-dur are absent
+   from the output. That silence is the failure this verification exists to
+   catch. Durations go through --transition-duration-* instead, which is why
+   the motion tokens are mapped under a name that does not match the utility.
+
+   The trap is --columns-*. It looks like the obvious home for a column count
+   and it compiles cleanly:
+
+     --columns-sl-probe: 9;    =>   .columns-sl-probe { columns: 9 }
+
+   That is the CSS multi-column property, which flows text into newspaper
+   columns and has nothing to do with a grid. This theme has no column count
+   token to be caught by it: --sl-grid-triptych holds the track list itself,
+   which is what lets --grid-template-columns-* emit a real grid.
+
+   THE V3 PRESET NEXT TO THIS FILE IS A DIFFERENT KIND OF CLAIM
+
+   preset.js rests on the documented v3 theme keys. No Tailwind 3 build was
+   run here, so treat it as unverified in the way this file is not.
+   ========================================================================== */
+
+@import "./tokens.css";
+
+@theme inline {
+  /* Colour. Twenty-two entries and one accent among them. The four line
+     colours are separate entries rather than aliases, because border-sl-line
+     and border-sl-control are different decisions with different contrast
+     obligations. */
+  --color-sl-ground: var(--sl-ground);
+  --color-sl-surface: var(--sl-surface);
+  --color-sl-surface-muted: var(--sl-surface-muted);
+  --color-sl-surface-invert: var(--sl-surface-invert);
+
+  --color-sl-ink: var(--sl-ink);
+  --color-sl-ink-muted: var(--sl-ink-muted);
+  --color-sl-ink-subtle: var(--sl-ink-subtle);
+  --color-sl-ink-invert: var(--sl-ink-invert);
+  --color-sl-ink-invert-muted: var(--sl-ink-invert-muted);
+
+  --color-sl-brand: var(--sl-brand);
+  --color-sl-brand-strong: var(--sl-brand-strong);
+  --color-sl-brand-soft: var(--sl-brand-soft);
+  --color-sl-brand-ink: var(--sl-brand-ink);
+
+  --color-sl-success: var(--sl-success);
+  --color-sl-success-soft: var(--sl-success-soft);
+  --color-sl-warning: var(--sl-warning);
+  --color-sl-warning-soft: var(--sl-warning-soft);
+  --color-sl-danger: var(--sl-danger);
+  --color-sl-danger-soft: var(--sl-danger-soft);
+  --color-sl-danger-ink: var(--sl-danger-ink);
+
+  --color-sl-line: var(--sl-border);
+  --color-sl-line-control: var(--sl-border-control);
+
+  /* Elevation. Four steps, all of them small. */
+  --shadow-sl-xs: var(--sl-shadow-xs);
+  --shadow-sl-sm: var(--sl-shadow-sm);
+  --shadow-sl-md: var(--sl-shadow-md);
+  --shadow-sl-lg: var(--sl-shadow-lg);
+
+  /* Radius */
+  --radius-sl-sm: var(--sl-radius-sm);
+  --radius-sl: var(--sl-radius);
+  --radius-sl-lg: var(--sl-radius-lg);
+  --radius-sl-xl: var(--sl-radius-xl);
+  --radius-sl-pill: var(--sl-radius-pill);
+
+  /* Border width. Undocumented namespace; see the header. */
+  --border-width-sl: var(--sl-border-width);
+  --border-width-sl-strong: var(--sl-border-width-strong);
+
+  /* Type */
+  --font-sl-sans: var(--sl-font-sans);
+  --font-sl-mono: var(--sl-font-mono);
+
+  --font-weight-sl-body: var(--sl-weight-body);
+  --font-weight-sl-medium: var(--sl-weight-medium);
+  --font-weight-sl-semibold: var(--sl-weight-semibold);
+  --font-weight-sl-bold: var(--sl-weight-bold);
+
+  --text-sl-display: var(--sl-text-display);
+  --text-sl-h1: var(--sl-text-h1);
+  --text-sl-h2: var(--sl-text-h2);
+  --text-sl-h3: var(--sl-text-h3);
+  --text-sl-lead: var(--sl-text-lead);
+  --text-sl-body: var(--sl-text-body);
+  --text-sl-sm: var(--sl-text-sm);
+  --text-sl-xs: var(--sl-text-xs);
+
+  --leading-sl-tight: var(--sl-leading-tight);
+  --leading-sl-snug: var(--sl-leading-snug);
+  --leading-sl-body: var(--sl-leading-body);
+
+  --tracking-sl-tight: var(--sl-tracking-tight);
+  --tracking-sl-wide: var(--sl-tracking-wide);
+
+  /* Space. Named to sit alongside Tailwind's own scale, not to replace it.
+     The section rhythm values are here as well, so a page rebuilt in Tailwind
+     can write py-sl-section rather than reinventing the number. */
+  --spacing-sl-1: var(--sl-space-1);
+  --spacing-sl-2: var(--sl-space-2);
+  --spacing-sl-3: var(--sl-space-3);
+  --spacing-sl-4: var(--sl-space-4);
+  --spacing-sl-6: var(--sl-space-6);
+  --spacing-sl-8: var(--sl-space-8);
+  --spacing-sl-12: var(--sl-space-12);
+  --spacing-sl-16: var(--sl-space-16);
+  --spacing-sl-24: var(--sl-space-24);
+  --spacing-sl-32: var(--sl-space-32);
+
+  --spacing-sl-section: var(--sl-section-y);
+  --spacing-sl-section-wide: var(--sl-section-y-wide);
+  --spacing-sl-hero: var(--sl-hero-y);
+  --spacing-sl-hero-wide: var(--sl-hero-y-wide);
+
+  --spacing-sl-logo: var(--sl-logo-height);
+  --spacing-sl-plan-raise: var(--sl-plan-raise);
+  --spacing-sl-frame-bar: var(--sl-frame-bar);
+  --spacing-sl-avatar: var(--sl-avatar);
+
+  /* Width. max-w-sl, max-w-sl-narrow, max-w-sl-measure. */
+  --container-sl: var(--sl-container);
+  --container-sl-narrow: var(--sl-container-narrow);
+  --container-sl-measure: var(--sl-measure);
+
+  /* Layout. Undocumented namespace; see the header. These emit a real track
+     list, which is what a column count could not do. */
+  --grid-template-columns-sl-triptych: var(--sl-grid-triptych);
+  --grid-template-columns-sl-pair: var(--sl-grid-pair);
+
+  /* Gradient. Undocumented namespace; see the header. bg-sl-hero and
+     bg-sl-invert. */
+  --background-image-sl-hero: var(--sl-gradient-ground);
+  --background-image-sl-invert: var(--sl-gradient-invert);
+
+  /* Motion. The duration namespace is spelled --transition-duration-* and the
+     utility is spelled duration-*. --duration-* generates nothing. */
+  --transition-duration-sl: var(--sl-duration);
+  --transition-duration-sl-slow: var(--sl-duration-slow);
+
+  --ease-sl: var(--sl-ease);
+}
