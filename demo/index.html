@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Detent | saas-landing-theme demo</title>
+    <meta
+      name="description"
+      content="A fictional B2B renewal tracker, built entirely from the saas-landing-theme tokens, components and section patterns. No build step, no framework, no dependencies."
+    />
+
+    <!-- The real token file, the real component file and the real section
+         file, in that order. This page holds no copy of any of them and
+         declares no colour of its own. -->
+    <link rel="stylesheet" href="../tokens/tokens.css" />
+    <link rel="stylesheet" href="../components/components.css" />
+    <link rel="stylesheet" href="../components/sections.css" />
+
+    <style>
+      /* Page reset for this demo only. Tokens throughout, no literals. */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--sl-ground);
+        color: var(--sl-ink);
+        font-family: var(--sl-font-sans);
+        font-size: var(--sl-text-body);
+        line-height: var(--sl-leading-body);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* The skip link is the first thing in the tab order and the only thing
+         on this page that is invisible until it is focused. */
+      .skip {
+        position: absolute;
+        left: var(--sl-space-4);
+        top: var(--sl-space-4);
+        z-index: 40;
+        padding: var(--sl-space-3) var(--sl-space-4);
+        background: var(--sl-surface);
+        color: var(--sl-ink);
+        border-radius: var(--sl-radius);
+        box-shadow: var(--sl-shadow-md);
+        transform: translateY(-200%);
+      }
+
+      .skip:focus {
+        transform: translateY(0);
+      }
+
+      .demo-note {
+        max-width: 34rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+
+    <!-- One sprite for the glyphs that repeat. The brand marks live in
+         assets/ as their own files; a tick that appears fourteen times is
+         page furniture rather than art, so it is defined once here and
+         referenced with <use>. -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <symbol id="sl-tick" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m4 10.5 4 4 8-9" />
+      </symbol>
+      <symbol id="sl-chevron" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="m3 6 5 5 5-5" />
+      </symbol>
+      <symbol id="sl-list" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M7 5h9M7 10h9M7 15h9M3.5 5h.01M3.5 10h.01M3.5 15h.01" />
+      </symbol>
+      <symbol id="sl-person" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="10" cy="6.5" r="3.25" />
+        <path d="M3.75 17a6.25 6.25 0 0 1 12.5 0" />
+      </symbol>
+      <symbol id="sl-bell" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 8a5 5 0 0 1 10 0c0 3.5 1.25 4.75 1.25 4.75H3.75S5 11.5 5 8Z" />
+        <path d="M8.25 15.5a1.9 1.9 0 0 0 3.5 0" />
+      </symbol>
+    </svg>
+
+    <!-- ==================================================================
+         NAV
+         ================================================================== -->
+    <header class="sl-nav">
+      <div class="sl-nav-inner">
+        <a class="sl-nav-brand" href="#top">
+          <svg class="sl-nav-mark" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true">
+            <rect x="2.5" y="17.5" width="10" height="10" rx="2.5" />
+            <rect x="19.5" y="17.5" width="10" height="10" rx="2.5" />
+            <rect x="13.5" y="4.5" width="5" height="17" rx="2.5" />
+          </svg>
+          Detent
+        </a>
+
+        <nav aria-label="Primary">
+          <ul class="sl-nav-links">
+            <li><a class="sl-nav-link" href="#features">Product</a></li>
+            <li><a class="sl-nav-link" href="#pricing">Pricing</a></li>
+            <li><a class="sl-nav-link" href="#customers">Customers</a></li>
+            <li><a class="sl-nav-link" href="#faq">FAQ</a></li>
+          </ul>
+        </nav>
+
+        <div class="sl-nav-actions">
+          <a class="sl-btn sl-btn-ghost sl-btn-sm" href="#top">Sign in</a>
+          <a class="sl-btn sl-btn-primary sl-btn-sm" href="#pricing">Start free trial</a>
+        </div>
+
+        <details class="sl-nav-disclosure">
+          <summary aria-label="Menu">
+            Menu
+            <svg width="16" height="16" aria-hidden="true"><use href="#sl-chevron" /></svg>
+          </summary>
+          <ul class="sl-nav-panel">
+            <li><a class="sl-nav-link" href="#features">Product</a></li>
+            <li><a class="sl-nav-link" href="#pricing">Pricing</a></li>
+            <li><a class="sl-nav-link" href="#customers">Customers</a></li>
+            <li><a class="sl-nav-link" href="#faq">FAQ</a></li>
+            <li><a class="sl-btn sl-btn-primary sl-btn-sm" href="#pricing">Start free trial</a></li>
+          </ul>
+        </details>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- ================================================================
+           HERO
+           ================================================================ -->
+      <section class="sl-hero" id="top">
+        <div class="sl-container">
+          <div class="sl-hero-inner">
+            <div>
+              <span class="sl-badge sl-badge-brand sl-hero-tag">Renewal tracking</span>
+              <h1 class="sl-hero-title">Every renewal has a date and an owner.</h1>
+              <p class="sl-hero-lead">
+                Detent keeps both honest. Contracts, vendor reviews,
+                certificates of insurance and the quiet deadlines nobody put in
+                a calendar sit in one list, with a name against each date and a
+                reminder early enough to change the outcome.
+              </p>
+              <div class="sl-hero-actions">
+                <a class="sl-btn sl-btn-primary sl-btn-lg" href="#pricing">Start a 14 day trial</a>
+                <a class="sl-btn sl-btn-secondary sl-btn-lg" href="#customers">See how teams use it</a>
+              </div>
+              <p class="sl-hero-note">
+                No card to start. Cancel from the settings page, and your
+                export goes with you.
+              </p>
+            </div>
+
+            <!-- The product shot is markup in a frame rather than a
+                 screenshot. It stays current when the product changes and it
+                 can be read by a screen reader. -->
+            <div class="sl-frame">
+              <div class="sl-frame-bar">
+                <svg width="16" height="16" aria-hidden="true"><use href="#sl-list" /></svg>
+                detent.app / renewals
+              </div>
+              <div class="sl-frame-body">
+                <div class="sl-frame-row">
+                  <span class="sl-frame-row-label">Arcwell master agreement</span>
+                  <span class="sl-frame-row-meta">Renews in 12 days</span>
+                  <span class="sl-badge sl-badge-warning">Needs a decision</span>
+                </div>
+                <div class="sl-frame-row">
+                  <span class="sl-frame-row-label">Norlake insurance certificate</span>
+                  <span class="sl-frame-row-meta">Lapsed 2 days ago</span>
+                  <span class="sl-badge sl-badge-danger">Overdue</span>
+                </div>
+                <div class="sl-frame-row">
+                  <span class="sl-frame-row-label">SOC 2 evidence refresh</span>
+                  <span class="sl-frame-row-meta">Due in 5 weeks</span>
+                  <span class="sl-badge sl-badge-neutral">On track</span>
+                </div>
+                <div class="sl-frame-row">
+                  <span class="sl-frame-row-label">Tessel data processing terms</span>
+                  <span class="sl-frame-row-meta">Signed 6 Aug</span>
+                  <span class="sl-badge sl-badge-success">Renewed</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============================================================
+               PROOF STRIP
+               ============================================================ -->
+          <div class="sl-proof">
+            <p class="sl-proof-label">Tracking 40,000 commitments for operations teams at</p>
+            <ul class="sl-proof-logos">
+              <li class="sl-proof-logo-item">
+                <span class="sl-proof-logo-lockup">
+                  <svg class="sl-proof-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" aria-hidden="true">
+                    <path d="M3 19a9 9 0 0 1 18 0" />
+                    <path d="M7.5 19a4.5 4.5 0 0 1 9 0" />
+                  </svg>
+                  Arcwell
+                </span>
+              </li>
+              <li class="sl-proof-logo-item">
+                <span class="sl-proof-logo-lockup">
+                  <svg class="sl-proof-logo" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <rect x="3" y="3" width="8" height="8" rx="1.5" />
+                    <rect x="13" y="6" width="8" height="8" rx="1.5" />
+                    <rect x="3" y="13" width="8" height="8" rx="1.5" />
+                  </svg>
+                  Tessel
+                </span>
+              </li>
+              <li class="sl-proof-logo-item">
+                <span class="sl-proof-logo-lockup">
+                  <svg class="sl-proof-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M4 14 10 5l6 9" />
+                    <path d="M3 19h18" />
+                  </svg>
+                  Norlake
+                </span>
+              </li>
+              <li class="sl-proof-logo-item">
+                <span class="sl-proof-logo-lockup">
+                  <svg class="sl-proof-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 3 21 20H3Z" />
+                    <path d="M12 11l4 7H8Z" fill="currentColor" stroke="none" />
+                  </svg>
+                  Vantis
+                </span>
+              </li>
+              <li class="sl-proof-logo-item">
+                <span class="sl-proof-logo-lockup">
+                  <svg class="sl-proof-logo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 2.5 21.5 12 12 21.5 2.5 12Z" />
+                    <path d="M12 2.5v19" />
+                  </svg>
+                  Quillon
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           FEATURE TRIPTYCH
+           ================================================================ -->
+      <section class="sl-section" id="features">
+        <div class="sl-container">
+          <div class="sl-section-head">
+            <span class="sl-eyebrow">How it works</span>
+            <h2 class="sl-section-title">Three things a spreadsheet cannot do</h2>
+            <p class="sl-section-lead">
+              The list is the easy part. What breaks is everything the list
+              does not know: who owns the date, what happened last time, and
+              whether anyone has been told yet.
+            </p>
+          </div>
+
+          <div class="sl-features">
+            <article class="sl-card">
+              <div class="sl-feature-icon">
+                <svg aria-hidden="true"><use href="#sl-list" /></svg>
+              </div>
+              <div class="sl-card-header">
+                <h3 class="sl-card-title">One list, every commitment</h3>
+              </div>
+              <p class="sl-card-body">
+                Contracts, certifications, insurance, security reviews and
+                anything else with a date on it. Import a CSV or forward the
+                confirmation email and Detent reads the date out of it.
+              </p>
+            </article>
+
+            <article class="sl-card">
+              <div class="sl-feature-icon">
+                <svg aria-hidden="true"><use href="#sl-person" /></svg>
+              </div>
+              <div class="sl-card-header">
+                <h3 class="sl-card-title">A name against every date</h3>
+              </div>
+              <p class="sl-card-body">
+                Every commitment has one owner and one backup. When somebody
+                leaves, their dates move to their manager rather than going
+                quiet until the renewal lands.
+              </p>
+            </article>
+
+            <article class="sl-card">
+              <div class="sl-feature-icon">
+                <svg aria-hidden="true"><use href="#sl-bell" /></svg>
+              </div>
+              <div class="sl-card-header">
+                <h3 class="sl-card-title">Notice while it still matters</h3>
+              </div>
+              <p class="sl-card-body">
+                Set the lead time per commitment. A 90 day notice period gets
+                raised at 120 days, in the channel the owner already reads,
+                with last year's terms attached.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           PRICING
+           ================================================================ -->
+      <section class="sl-section sl-section-tint sl-pricing" id="pricing">
+        <div class="sl-container">
+          <div class="sl-section-head">
+            <span class="sl-eyebrow">Pricing</span>
+            <h2 class="sl-section-title">Priced per person, not per commitment</h2>
+            <p class="sl-section-lead">
+              Adding a renewal should never be a decision about budget. Every
+              plan tracks as many commitments as you have.
+            </p>
+          </div>
+
+          <div class="sl-pricing-switch">
+            <fieldset class="sl-segmented">
+              <legend class="sl-visually-hidden">Billing period</legend>
+              <label class="sl-segmented-option">
+                <input type="radio" name="billing" id="billing-monthly" checked />
+                Monthly
+              </label>
+              <label class="sl-segmented-option">
+                <input type="radio" name="billing" id="billing-annual" />
+                Annual
+                <span class="sl-badge sl-badge-success">2 months free</span>
+              </label>
+            </fieldset>
+
+            <p class="sl-pricing-status" role="status">
+              <span class="sl-price-monthly">Showing monthly prices, billed each month.</span>
+              <span class="sl-price-annual">Showing annual prices, billed once a year.</span>
+            </p>
+          </div>
+
+          <div class="sl-plans">
+            <article class="sl-plan">
+              <div class="sl-plan-head">
+                <h3 class="sl-plan-name">Starter</h3>
+              </div>
+              <p class="sl-plan-summary">
+                For one team keeping its first few hundred dates in one place.
+              </p>
+              <p class="sl-plan-price">
+                <span class="sl-price-monthly">$19</span>
+                <span class="sl-price-annual">$16</span>
+                <span class="sl-price-unit">per person, per month</span>
+              </p>
+              <p class="sl-plan-billing">
+                <span class="sl-price-monthly">Billed monthly. Cancel any time.</span>
+                <span class="sl-price-annual">Billed yearly at $192 per person.</span>
+              </p>
+              <ul class="sl-plan-features">
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Unlimited tracked commitments
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Email and calendar reminders
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  CSV import and export
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Up to 10 people
+                </li>
+              </ul>
+              <div class="sl-plan-action">
+                <a class="sl-btn sl-btn-secondary sl-btn-block" href="#top">Start free trial</a>
+              </div>
+            </article>
+
+            <article class="sl-plan sl-plan-featured">
+              <div class="sl-plan-head">
+                <h3 class="sl-plan-name">Team</h3>
+                <span class="sl-badge sl-badge-brand">Most chosen</span>
+              </div>
+              <p class="sl-plan-summary">
+                For operations, finance and legal working the same list.
+              </p>
+              <p class="sl-plan-price">
+                <span class="sl-price-monthly">$39</span>
+                <span class="sl-price-annual">$32</span>
+                <span class="sl-price-unit">per person, per month</span>
+              </p>
+              <p class="sl-plan-billing">
+                <span class="sl-price-monthly">Billed monthly. Cancel any time.</span>
+                <span class="sl-price-annual">Billed yearly at $384 per person.</span>
+              </p>
+              <ul class="sl-plan-features">
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Everything in Starter
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Owners, backups and handover on departure
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Slack and Teams delivery
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Renewal history and terms archive
+                </li>
+              </ul>
+              <div class="sl-plan-action">
+                <a class="sl-btn sl-btn-primary sl-btn-block" href="#top">Start free trial</a>
+              </div>
+            </article>
+
+            <article class="sl-plan">
+              <div class="sl-plan-head">
+                <h3 class="sl-plan-name">Enterprise</h3>
+              </div>
+              <p class="sl-plan-summary">
+                For groups where the audit trail is the reason you are buying.
+              </p>
+              <p class="sl-plan-price">
+                <span>Custom</span>
+              </p>
+              <p class="sl-plan-billing">Annual agreement, invoiced.</p>
+              <ul class="sl-plan-features">
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Everything in Team
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  SSO and directory sync
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Immutable audit export
+                </li>
+                <li>
+                  <svg class="sl-tick" aria-hidden="true"><use href="#sl-tick" /></svg>
+                  Named support contact
+                </li>
+              </ul>
+              <div class="sl-plan-action">
+                <a class="sl-btn sl-btn-secondary sl-btn-block" href="#top">Talk to us</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- ============================================================
+               FEATURE COMPARISON
+               ============================================================ -->
+          <div class="sl-compare">
+            <h3 class="sl-compare-title">Compare the plans</h3>
+            <div class="sl-table-wrap" tabindex="0" role="region" aria-label="Plan comparison, scrollable">
+              <table class="sl-table">
+                <caption>
+                  Every plan tracks unlimited commitments. The differences are
+                  in who can see them and what happens to the record. On a
+                  narrow screen the table scrolls sideways.
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">Feature</th>
+                    <th scope="col">Starter</th>
+                    <th scope="col">Team</th>
+                    <th scope="col">Enterprise</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">People included</th>
+                    <td class="sl-table-num">Up to 10</td>
+                    <td class="sl-table-num">Up to 100</td>
+                    <td>No limit</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Tracked commitments</th>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                    <td>Unlimited</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Reminder channels</th>
+                    <td>Email, calendar</td>
+                    <td>Email, calendar, Slack, Teams</td>
+                    <td>Email, calendar, Slack, Teams, webhook</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Owner and backup per commitment</th>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Renewal history</th>
+                    <td class="sl-table-num">12 months</td>
+                    <td class="sl-table-num">5 years</td>
+                    <td>For as long as the account exists</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">SSO and directory sync</th>
+                    <td>No</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Audit export</th>
+                    <td>CSV</td>
+                    <td>CSV</td>
+                    <td>CSV, signed JSON</td>
+                  </tr>
+                  <tr>
+                    <th scope="row">Support</th>
+                    <td>Email, two working days</td>
+                    <td>Email, same working day</td>
+                    <td>Named contact</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           TESTIMONIALS
+           ================================================================ -->
+      <section class="sl-section" id="customers">
+        <div class="sl-container">
+          <div class="sl-section-head">
+            <span class="sl-eyebrow">Customers</span>
+            <h2 class="sl-section-title">What changed after the first quarter</h2>
+          </div>
+
+          <div class="sl-quotes">
+            <figure class="sl-quote">
+              <blockquote class="sl-quote-text">
+                We had four spreadsheets and a shared calendar, and the only
+                person who understood the whole picture had been here eleven
+                years. Now the picture is the tool, and she takes holidays.
+              </blockquote>
+              <figcaption class="sl-quote-author">
+                <span class="sl-avatar" aria-hidden="true">RH</span>
+                <span>
+                  <span class="sl-quote-name">Rosa Herrera</span>
+                  Head of Operations, Arcwell
+                </span>
+              </figcaption>
+            </figure>
+
+            <figure class="sl-quote">
+              <blockquote class="sl-quote-text">
+                The auto renewal we missed in 2024 cost us more than eight
+                years of this will. That is the whole business case, and it
+                took one afternoon to import everything.
+              </blockquote>
+              <figcaption class="sl-quote-author">
+                <span class="sl-avatar" aria-hidden="true">DO</span>
+                <span>
+                  <span class="sl-quote-name">Daniel Okafor</span>
+                  Finance Director, Norlake
+                </span>
+              </figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           FAQ
+           ================================================================ -->
+      <section class="sl-section sl-section-tint" id="faq">
+        <div class="sl-container-narrow">
+          <div class="sl-section-head">
+            <span class="sl-eyebrow">Questions</span>
+            <h2 class="sl-section-title">Before you start a trial</h2>
+          </div>
+
+          <div class="sl-faq">
+            <details class="sl-faq-item">
+              <summary class="sl-faq-q">
+                How is this different from a shared calendar?
+                <svg class="sl-faq-marker" aria-hidden="true"><use href="#sl-chevron" /></svg>
+              </summary>
+              <p class="sl-faq-a">
+                A calendar tells you a date arrived. Detent tells you a
+                decision is due, who owns it, what was agreed last time, and
+                whether anything has happened since the reminder went out. The
+                date is the smallest part of the record.
+              </p>
+            </details>
+
+            <details class="sl-faq-item">
+              <summary class="sl-faq-q">
+                Can we import what we already have?
+                <svg class="sl-faq-marker" aria-hidden="true"><use href="#sl-chevron" /></svg>
+              </summary>
+              <p class="sl-faq-a">
+                Yes. CSV import on every plan, and a mapping step that runs
+                against your own column names. Most teams are importing within
+                the first hour and correcting owners for a week after that.
+              </p>
+            </details>
+
+            <details class="sl-faq-item">
+              <summary class="sl-faq-q">
+                What happens when the owner leaves the company?
+                <svg class="sl-faq-marker" aria-hidden="true"><use href="#sl-chevron" /></svg>
+              </summary>
+              <p class="sl-faq-a">
+                On Team and Enterprise their commitments move to the named
+                backup, and the manager gets a list of everything that moved.
+                On Starter the commitments stay in place and are flagged as
+                unowned, which is visible on the main list rather than hidden
+                in a report.
+              </p>
+            </details>
+
+            <details class="sl-faq-item">
+              <summary class="sl-faq-q">
+                Do you support SSO?
+                <svg class="sl-faq-marker" aria-hidden="true"><use href="#sl-chevron" /></svg>
+              </summary>
+              <p class="sl-faq-a">
+                SAML and directory sync are on Enterprise. Everything below
+                that is email and password with optional two factor
+                authentication.
+              </p>
+            </details>
+
+            <details class="sl-faq-item">
+              <summary class="sl-faq-q">
+                How does the annual discount work?
+                <svg class="sl-faq-marker" aria-hidden="true"><use href="#sl-chevron" /></svg>
+              </summary>
+              <p class="sl-faq-a">
+                Paying yearly costs the same as ten months. Switch at any
+                point and the change applies from your next invoice, with the
+                unused part of the current period credited.
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================================================================
+           FINAL CTA
+           ================================================================ -->
+      <section class="sl-section sl-section-invert">
+        <div class="sl-container sl-cta">
+          <h2 class="sl-cta-title">Find out what is renewing next month</h2>
+          <p class="sl-cta-lead">
+            Import your contracts, put a name against each date, and see the
+            next 90 days on one screen. Two weeks, every feature, no card.
+          </p>
+          <div class="sl-cta-actions">
+            <a class="sl-btn sl-btn-invert sl-btn-lg" href="#pricing">Start a 14 day trial</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="sl-footer">
+      <div class="sl-container sl-footer-inner">
+        <p class="demo-note">
+          Detent is a fictional product. This page exists to show a theme:
+          every colour, size and space on it comes from
+          <a href="../tokens/tokens.css">tokens.css</a>, and the page itself
+          declares none. The customer names and quotations are invented.
+        </p>
+        <p>
+          <a href="../components/index.html">Component gallery</a>
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

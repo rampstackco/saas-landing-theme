@@ -1,0 +1,739 @@
+/* ==========================================================================
+   saas-landing-theme / the section layer
+   --------------------------------------------------------------------------
+   The landing page choreography, which is the part of this register a token
+   file cannot hold.
+
+   tokens.css can hold 96px and it can hold 64px. What it cannot hold is the
+   fact that a section takes one of them and the hero takes the next step up,
+   or that the gap between a headline and the sentence under it is one step
+   while the gap between that sentence and the buttons is three. A page in
+   this register is judged on rhythm, and rhythm is a set of relationships
+   between values rather than the values themselves. This file is where those
+   relationships live.
+
+   The patterns here are the ones a landing page in this register actually
+   needs, in the order a page uses them:
+
+     the section shell and its headline block
+     the hero, with its proof strip and product frame
+     the feature triptych
+     the pricing table, with billing period and feature comparison
+     the testimonial band
+     the FAQ
+     the final call to action, and the footer under it
+
+   SEPARABILITY. Delete this file and the tokens still resolve and the seven
+   components still render. What you lose is the page: a set of components
+   with no rhythm holding them in an order. That makes this layer different
+   from the play layer the neobrutalism sibling ships, which can be deleted as
+   a position change. Deleting this one is not a move along an axis, it is
+   leaving the repository with the half that was never the hard part.
+
+   Every value here is a var() reference to tokens.css. There is not one
+   colour literal in this file.
+
+   Requires tokens.css and components.css, in that order:
+
+     <link rel="stylesheet" href="tokens/tokens.css" />
+     <link rel="stylesheet" href="components/components.css" />
+     <link rel="stylesheet" href="components/sections.css" />
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   THE SECTION SHELL
+   One padding value applies to every section on the page, which is what makes
+   the rhythm legible as rhythm. A section that sets its own vertical padding
+   because it looked tight in isolation is the single most common way a page
+   in this register comes apart.
+   -------------------------------------------------------------------------- */
+.sl-section {
+  padding-block: var(--sl-section-y);
+}
+
+/* An anchor jump with a sticky nav on the page lands with the heading already
+   behind the bar unless something says otherwise. This is that something. */
+.sl-section,
+.sl-hero {
+  scroll-margin-top: var(--sl-nav-offset);
+}
+
+.sl-container {
+  width: 100%;
+  max-width: var(--sl-container);
+  margin-inline: auto;
+  padding-inline: var(--sl-space-4);
+}
+
+.sl-container-narrow {
+  width: 100%;
+  max-width: var(--sl-container-narrow);
+  margin-inline: auto;
+  padding-inline: var(--sl-space-4);
+}
+
+/* Two section grounds beyond the page ground. The tint marks a band as a
+   different kind of content without a border doing it; the invert is the one
+   dark band, and a page gets one. */
+.sl-section-tint {
+  background: var(--sl-surface-muted);
+}
+
+.sl-section-invert {
+  background: var(--sl-gradient-invert);
+  color: var(--sl-ink-invert);
+}
+
+.sl-section-invert .sl-section-lead,
+.sl-section-invert .sl-eyebrow {
+  color: var(--sl-ink-invert-muted);
+}
+
+/* --------------------------------------------------------------------------
+   THE SECTION HEADLINE BLOCK
+   Eyebrow, headline, one sentence. The measure on the lead is the load
+   bearing part: a centred sentence that runs the full container width reads
+   as a paragraph that lost its column, and no amount of type care fixes it.
+   -------------------------------------------------------------------------- */
+.sl-section-head {
+  max-width: 42rem;
+  margin-inline: auto;
+  margin-bottom: var(--sl-space-12);
+  text-align: center;
+}
+
+.sl-eyebrow {
+  display: block;
+  margin-bottom: var(--sl-space-3);
+  font-size: var(--sl-text-xs);
+  font-weight: var(--sl-weight-semibold);
+  letter-spacing: var(--sl-tracking-wide);
+  text-transform: uppercase;
+  color: var(--sl-brand);
+}
+
+.sl-section-title {
+  margin: 0;
+  font-size: var(--sl-text-h2);
+  font-weight: var(--sl-weight-bold);
+  line-height: var(--sl-leading-snug);
+  letter-spacing: var(--sl-tracking-tight);
+  color: inherit;
+}
+
+.sl-section-lead {
+  margin: var(--sl-space-4) 0 0;
+  font-size: var(--sl-text-lead);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   THE HERO
+   Copy on the left, product on the right, stacked below 900px. The hero wash
+   runs out of the top of the page rather than filling the section, so the
+   boundary between hero and first section is a change in tint rather than a
+   line.
+   -------------------------------------------------------------------------- */
+.sl-hero {
+  padding-block: var(--sl-hero-y);
+  background: var(--sl-gradient-ground);
+}
+
+.sl-hero-inner {
+  display: grid;
+  gap: var(--sl-space-12);
+  align-items: center;
+}
+
+/* The badge above the hero headline. It is an inline element with no margin of
+   its own, and the headline has none either, so the space between them has to
+   be declared somewhere. */
+.sl-hero-tag {
+  margin-bottom: var(--sl-space-4);
+}
+
+.sl-hero-title {
+  margin: 0;
+  font-size: var(--sl-text-h1);
+  font-weight: var(--sl-weight-bold);
+  line-height: var(--sl-leading-tight);
+  letter-spacing: var(--sl-tracking-tight);
+  color: var(--sl-ink);
+}
+
+.sl-hero-lead {
+  max-width: 34rem;
+  margin: var(--sl-space-6) 0 0;
+  font-size: var(--sl-text-lead);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-muted);
+}
+
+/* Stacked and full width on a phone, side by side from 560px. Two buttons of
+   different label lengths sitting left aligned in a narrow column read as a
+   layout that ran out of room, and a full-width primary is easier to hit. */
+.sl-hero-actions {
+  display: grid;
+  gap: var(--sl-space-3);
+  margin-top: var(--sl-space-8);
+}
+
+/* The line under the buttons that answers the two questions a reader has
+   before they will click one. It is small, and it is not optional. */
+.sl-hero-note {
+  margin: var(--sl-space-4) 0 0;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+/* --------------------------------------------------------------------------
+   THE PROOF STRIP
+   Customer marks under the hero. They are inlined SVG taking currentColor, so
+   they arrive at one weight instead of at whatever weight each brand's PNG
+   happened to carry. Height is set and width is left alone, because marks
+   differ in aspect ratio and a common width puts a wide one twice the optical
+   size of a narrow one.
+   -------------------------------------------------------------------------- */
+.sl-proof {
+  margin-top: var(--sl-space-16);
+}
+
+.sl-proof-label {
+  margin: 0 0 var(--sl-space-6);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+  text-align: center;
+}
+
+.sl-proof-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sl-space-8) var(--sl-space-12);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sl-proof-logos > li {
+  display: flex;
+}
+
+/* Mark plus name. The name is HTML rather than type inside the SVG, so it
+   renders in the page's own font at the page's own weight and can be read,
+   searched and translated like the text it is. */
+.sl-proof-logo-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sl-space-2);
+  color: var(--sl-ink-subtle);
+  font-size: var(--sl-text-lead);
+  font-weight: var(--sl-weight-semibold);
+  letter-spacing: var(--sl-tracking-tight);
+}
+
+.sl-proof-logo {
+  display: block;
+  flex: none;
+  height: var(--sl-logo-height);
+  width: auto;
+}
+
+/* --------------------------------------------------------------------------
+   THE PRODUCT FRAME
+   A window drawn with the theme's own tokens, holding real markup rather than
+   a screenshot. A PNG of a product goes stale the week the product changes
+   and cannot be read by anyone using a screen reader; markup inside a frame
+   stays current and stays readable.
+   -------------------------------------------------------------------------- */
+.sl-frame {
+  overflow: hidden;
+  background: var(--sl-surface);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-xl);
+  box-shadow: var(--sl-shadow-lg);
+}
+
+.sl-frame-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-space-2);
+  height: var(--sl-frame-bar);
+  padding-inline: var(--sl-space-4);
+  background: var(--sl-surface-muted);
+  border-bottom: var(--sl-border-width) solid var(--sl-border);
+  font-size: var(--sl-text-xs);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-frame-body {
+  padding: var(--sl-space-4);
+}
+
+/* A row inside the frame. Enough structure to read as an application and not
+   enough to pretend to be one.
+
+   Below 560px the row is two lines: the name of the thing, then its date and
+   its state. Three columns in a 320px frame gives every one of them a width
+   that wraps mid phrase, which is the single ugliest thing a product shot can
+   do on a phone. */
+.sl-frame-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--sl-space-1) var(--sl-space-4);
+  padding-block: var(--sl-space-3);
+  border-bottom: var(--sl-border-width) solid var(--sl-border);
+  font-size: var(--sl-text-sm);
+}
+
+.sl-frame-row:last-child {
+  border-bottom: 0;
+}
+
+.sl-frame-row-label {
+  font-weight: var(--sl-weight-medium);
+  color: var(--sl-ink);
+  grid-column: 1 / -1;
+}
+
+.sl-frame-row-meta {
+  color: var(--sl-ink-subtle);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --------------------------------------------------------------------------
+   THE FEATURE TRIPTYCH
+   Three columns, because three is the count a reader takes in without
+   counting. Four reads as a list and gets skimmed; two leaves the row looking
+   like something is missing.
+   -------------------------------------------------------------------------- */
+.sl-features {
+  display: grid;
+  gap: var(--sl-space-6);
+}
+
+.sl-feature-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: var(--sl-space-4);
+  color: var(--sl-brand);
+  background: var(--sl-brand-soft);
+  border-radius: var(--sl-radius);
+}
+
+.sl-feature-icon > svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   THE PRICING SECTION
+   The hardest component in the set, and the one most landing pages get wrong
+   in the same three ways: the billing control is a switch nobody can operate
+   without a mouse, the recommended plan is marked with colour alone, and the
+   comparison table is an image.
+
+   BILLING PERIOD. The control is the segmented radio group in components.css.
+   The price swap below is a :has() rule keyed on the annual radio, so the
+   whole mechanism is two selectors and no script. Baseline support for :has()
+   arrived in December 2023; in an older engine the radios still operate and
+   the monthly price stays on screen, which is the state the markup ships in.
+   -------------------------------------------------------------------------- */
+.sl-pricing-switch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sl-space-3);
+  margin-bottom: var(--sl-space-12);
+}
+
+.sl-price-annual {
+  display: none;
+}
+
+.sl-pricing:has(#billing-annual:checked) .sl-price-monthly {
+  display: none;
+}
+
+.sl-pricing:has(#billing-annual:checked) .sl-price-annual {
+  display: inline;
+}
+
+/* The same two rules drive one status line for the section, because they key
+   on the class rather than on the plan. One line rather than one per plan, so
+   a screen reader that announces the region hears the change once.
+   Announcement of a display swap inside a live region is not uniform across
+   screen readers, which is why the radio group's own label carries the
+   primary signal and this line is a second channel rather than the only one. */
+.sl-pricing-status {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-plans {
+  display: grid;
+  gap: var(--sl-space-6);
+  align-items: start;
+}
+
+.sl-plan {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--sl-space-8);
+  background: var(--sl-surface);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-xl);
+  box-shadow: var(--sl-shadow-sm);
+}
+
+/* The recommended plan is marked four ways: a heavier border, a badge with
+   words in it, a raised position, and a filled button. Colour is the fifth,
+   and on its own it would be the only one a reader with a colour vision
+   deficiency cannot use. */
+.sl-plan-featured {
+  border-color: var(--sl-brand);
+  border-width: var(--sl-border-width-strong);
+  box-shadow: var(--sl-shadow-lg);
+}
+
+.sl-plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sl-space-3);
+  margin-bottom: var(--sl-space-2);
+}
+
+.sl-plan-name {
+  margin: 0;
+  font-size: var(--sl-text-h3);
+  font-weight: var(--sl-weight-semibold);
+  line-height: var(--sl-leading-snug);
+}
+
+.sl-plan-summary {
+  margin: 0 0 var(--sl-space-6);
+  font-size: var(--sl-text-sm);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-muted);
+}
+
+.sl-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sl-space-2);
+  margin: 0;
+  font-size: var(--sl-text-h1);
+  font-weight: var(--sl-weight-bold);
+  letter-spacing: var(--sl-tracking-tight);
+  font-variant-numeric: tabular-nums;
+  color: var(--sl-ink);
+}
+
+.sl-price-unit {
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-body);
+  letter-spacing: normal;
+  color: var(--sl-ink-subtle);
+}
+
+.sl-plan-billing {
+  margin: var(--sl-space-2) 0 var(--sl-space-6);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-plan-features {
+  margin: var(--sl-space-6) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sl-space-3);
+  font-size: var(--sl-text-sm);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-muted);
+}
+
+.sl-plan-features > li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sl-space-2);
+}
+
+.sl-tick {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 3px; /* optical: aligns the tick to the x-height, not the box */
+  color: var(--sl-success);
+}
+
+/* The plan's button sits at the bottom of the card whatever the feature list
+   above it does, so the three buttons land on one line across the row. */
+.sl-plan-action {
+  margin-top: auto;
+  padding-top: var(--sl-space-8);
+}
+
+.sl-compare {
+  margin-top: var(--sl-space-16);
+}
+
+.sl-compare-title {
+  margin: 0 0 var(--sl-space-6);
+  font-size: var(--sl-text-h3);
+  font-weight: var(--sl-weight-semibold);
+}
+
+/* --------------------------------------------------------------------------
+   THE TESTIMONIAL BAND
+   Two quotes, attributed to a person with a job title at a named company. An
+   unattributed quote is decoration; the attribution is the entire mechanism.
+   -------------------------------------------------------------------------- */
+.sl-quotes {
+  display: grid;
+  gap: var(--sl-space-6);
+}
+
+.sl-quote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sl-space-6);
+  height: 100%;
+  margin: 0;
+  padding: var(--sl-space-8);
+  background: var(--sl-surface);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-lg);
+  box-shadow: var(--sl-shadow-sm);
+}
+
+.sl-quote-text {
+  margin: 0;
+  font-size: var(--sl-text-lead);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink);
+}
+
+.sl-quote-author {
+  display: flex;
+  align-items: center;
+  gap: var(--sl-space-3);
+  margin-top: auto;
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+/* Initials rather than a stock portrait. A face nobody can name adds nothing
+   the name under it does not already carry. */
+.sl-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--sl-avatar);
+  height: var(--sl-avatar);
+  border-radius: var(--sl-radius-pill);
+  background: var(--sl-brand-soft);
+  color: var(--sl-brand-strong);
+  font-size: var(--sl-text-sm);
+  font-weight: var(--sl-weight-semibold);
+}
+
+.sl-quote-name {
+  display: block;
+  font-weight: var(--sl-weight-semibold);
+  color: var(--sl-ink);
+}
+
+/* --------------------------------------------------------------------------
+   THE FAQ
+   Native <details>, so the pattern is keyboard operable and searchable with
+   the browser's own find on the pages where the answer is open. The marker is
+   drawn in CSS and rotated on open; the rotation is the only motion in the
+   section.
+   -------------------------------------------------------------------------- */
+.sl-faq {
+  display: grid;
+  gap: var(--sl-space-3);
+}
+
+.sl-faq-item {
+  background: var(--sl-surface);
+  border: var(--sl-border-width) solid var(--sl-border);
+  border-radius: var(--sl-radius-lg);
+}
+
+.sl-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sl-space-4);
+  min-height: 56px;
+  padding: var(--sl-space-4) var(--sl-space-6);
+
+  font-size: var(--sl-text-body);
+  font-weight: var(--sl-weight-semibold);
+  color: var(--sl-ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.sl-faq-q::-webkit-details-marker {
+  display: none;
+}
+
+.sl-faq-q:focus-visible {
+  outline: var(--sl-ring-width) solid var(--sl-ring);
+  outline-offset: var(--sl-ring-offset);
+}
+
+.sl-faq-marker {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--sl-ink-subtle);
+  transition: transform var(--sl-duration-slow) var(--sl-ease);
+}
+
+.sl-faq-item[open] .sl-faq-marker {
+  transform: rotate(180deg);
+}
+
+.sl-faq-a {
+  margin: 0;
+  padding: 0 var(--sl-space-6) var(--sl-space-6);
+  font-size: var(--sl-text-body);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   THE FINAL CALL TO ACTION
+   The one dark band on the page, at the bottom, holding one action. A second
+   action here is the page asking a question it already asked in the hero.
+   -------------------------------------------------------------------------- */
+.sl-cta {
+  text-align: center;
+}
+
+.sl-cta-title {
+  margin: 0;
+  font-size: var(--sl-text-h2);
+  font-weight: var(--sl-weight-bold);
+  line-height: var(--sl-leading-snug);
+  letter-spacing: var(--sl-tracking-tight);
+}
+
+.sl-cta-lead {
+  max-width: 34rem;
+  margin: var(--sl-space-4) auto 0;
+  font-size: var(--sl-text-lead);
+  line-height: var(--sl-leading-body);
+  color: var(--sl-ink-invert-muted);
+}
+
+.sl-cta-actions {
+  display: grid;
+  justify-content: stretch;
+  gap: var(--sl-space-3);
+  margin-top: var(--sl-space-8);
+}
+
+/* --------------------------------------------------------------------------
+   THE FOOTER
+   -------------------------------------------------------------------------- */
+.sl-footer {
+  padding-block: var(--sl-space-12);
+  background: var(--sl-surface);
+  border-top: var(--sl-border-width) solid var(--sl-border);
+  font-size: var(--sl-text-sm);
+  color: var(--sl-ink-subtle);
+}
+
+.sl-footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sl-space-4);
+}
+
+.sl-footer a {
+  color: var(--sl-ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   THE BREAKPOINTS
+   Three of them. At 560px the patterns that are stacked for a phone come back
+   onto one line. At 768px the section rhythm opens up and the type scale takes
+   its display step. At 900px the three-column arrangements arrive, which is
+   later than most systems put them: three cards in a 768px viewport are
+   240px wide, and a plan card at 240px cannot hold a price and a feature
+   list without one of them wrapping badly.
+   -------------------------------------------------------------------------- */
+@media (min-width: 560px) {
+  .sl-hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .sl-cta-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .sl-frame-row {
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .sl-frame-row-label {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .sl-section {
+    padding-block: var(--sl-section-y-wide);
+  }
+
+  .sl-hero {
+    padding-block: var(--sl-hero-y-wide);
+  }
+
+  .sl-hero-title {
+    font-size: var(--sl-text-display);
+  }
+
+  .sl-container,
+  .sl-container-narrow {
+    padding-inline: var(--sl-space-6);
+  }
+}
+
+@media (min-width: 900px) {
+  .sl-hero-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .sl-features,
+  .sl-plans {
+    grid-template-columns: var(--sl-grid-triptych);
+  }
+
+  .sl-quotes {
+    grid-template-columns: var(--sl-grid-pair);
+  }
+
+  /* The recommended plan sits one step above its row. On a stacked layout
+     there is no row to sit above, so the raise only exists here. */
+  .sl-plan-featured {
+    transform: translateY(calc(var(--sl-plan-raise) * -1));
+  }
+}

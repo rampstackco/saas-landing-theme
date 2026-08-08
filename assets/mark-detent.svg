@@ -1,0 +1,24 @@
+<!--
+  Detent, the demo product's mark.
+
+  A pin seated between two blocks, which is what a detent is: the small catch
+  that holds a mechanism in position until something deliberately moves it.
+
+  Built to be inlined into your markup rather than loaded through <img>. An
+  SVG inside an <img> is an isolated document that cannot read your custom
+  properties, so it would arrive in whatever colour is baked into the file.
+  Inlined, this takes currentColor, which is how it picks up --sl-brand from
+  the class on its parent. Opened on its own it stays legible as black line
+  art.
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 32 32"
+  fill="currentColor"
+  role="img"
+  aria-label="Detent"
+>
+  <rect x="2.5" y="17.5" width="10" height="10" rx="2.5" />
+  <rect x="19.5" y="17.5" width="10" height="10" rx="2.5" />
+  <rect x="13.5" y="4.5" width="5" height="17" rx="2.5" />
+</svg>

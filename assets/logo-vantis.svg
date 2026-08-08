@@ -1,0 +1,6 @@
+<!-- Vantis, a fictional customer mark for the proof strip. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+  stroke="currentColor" stroke-width="2.25" stroke-linejoin="round" aria-hidden="true">
+  <path d="M12 3 21 20H3Z" />
+  <path d="M12 11l4 7H8Z" fill="currentColor" stroke="none" />
+</svg>
